@@ -16,10 +16,10 @@ const validateLogin = [
     check('credential')
       .exists({ checkFalsy: true })
       .notEmpty()
-      .withMessage('Please provide a valid email or username.'),
+      .withMessage('Email is required'),
     check('password')
       .exists({ checkFalsy: true })
-      .withMessage('Please provide a password.'),
+      .withMessage('Password is required'),
     handleValidationErrors
 ];
 
@@ -36,7 +36,7 @@ router.post(
         where: {
           [Op.or]: {
             username: credential,
-            email: credential
+            email: credential,
           }
         }
       });
@@ -46,7 +46,7 @@ router.post(
         err.status = 401;
         err.title = 'Login failed';
         err.errors = { message: 'Invalid credentials' };
-        return next(err.errors);
+        return res.status(401).json(err.errors);
       }
 
       const safeUser = {
