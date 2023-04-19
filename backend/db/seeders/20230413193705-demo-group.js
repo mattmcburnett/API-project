@@ -37,7 +37,7 @@ module.exports = {
       },
 
 
-    ], options);
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -45,6 +45,6 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       name: { [Op.in]: ['Dance It Up', 'Bend It Like Beckham', 'Read It and Weep'] }
-    }, options);
+    });
   }
 };

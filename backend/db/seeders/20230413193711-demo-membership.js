@@ -57,7 +57,7 @@ module.exports = {
       },
 
 
-    ], options);
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -65,6 +65,6 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       eventId: { [Op.in]: [1, 2, 3] }
-    }, options);
+    });
   }
 };

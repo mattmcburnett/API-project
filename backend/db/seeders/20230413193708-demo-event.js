@@ -44,7 +44,7 @@ module.exports = {
         endDate: new Date('2023-12-31')
       }
 
-    ], options);
+    ]);
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -52,6 +52,6 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
       name: { [Op.in]: ['Dance Party', 'Soccer Match', 'Book Club'] }
-    }, options);
+    });
   }
 };
