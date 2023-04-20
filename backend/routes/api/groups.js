@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Group, GroupImage, Membership } = require('../../db/models');
+const { User, Group, GroupImage, Membership, Venue } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -86,6 +86,45 @@ router.get(
     }
 );
 
+//Get details of a Group from an id
+router.get(
+    '/:groupId',
+    async (req, res, next) => {
+        const { groupId } = req.params;
+
+        const group = await Group.findByPk(groupId, {
+            include: [
+                {model: GroupImage, attributes: ['id', 'url', 'preview']},
+                {model: Venue, attributes: {exclude: ['createdAt', 'updatedAt']}}]
+        })
+        //error handling
+        if(!group) {
+            const err = new Error();
+            err.message = "Group couldn't be found";
+            return res.status(404).json(err);
+        }
+
+        const resGroup = group.toJSON();
+
+        const images = resGroup.GroupImages;
+
+        const organizer = await User.findByPk(resGroup.organizerId, {
+            attributes: ['id', 'firstName', 'lastName']
+        });
+
+        resGroup.Organizer = organizer;
+
+        const numMembers = await Membership.count({
+            where: {
+                groupId: resGroup.id
+            }
+        });
+
+        resGroup.numMembers = numMembers;
+
+        return res.json(resGroup);
+    }
+);
 
 
 
