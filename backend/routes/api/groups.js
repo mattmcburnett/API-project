@@ -43,7 +43,36 @@ router.get(
 );
 
 
+// router.get(
+//     '/current',
+//     async (req, res, next) => {
+//         const groups = await Group.findAll({
+//             include: {model: GroupImage}
+//         });
 
+//         for(let group of groups) {
+//             const numMembers = await Membership.count({
+//                 where: {
+//                     groupId: group.id
+//                 }
+//             });
+//             group.dataValues.numMembers = numMembers;
+//             for (let image of group.dataValues.GroupImages){
+//                 if (image.preview === true) {
+//                     group.dataValues.previewImage = image.url
+//                 };
+
+//             };
+//             if (!group.dataValues.previewImage) group.dataValues.previewImage = 'This group does not have a preview image'
+//             delete group.dataValues.GroupImages
+//         }
+
+//         const groupsObj = {};
+//         groupsObj.Groups = groups;
+
+//         res.json(groupsObj);
+//     }
+// );
 
 
 
