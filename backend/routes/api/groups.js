@@ -10,7 +10,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 
-
+//Get All Groups
 router.get(
     '/',
     async (req, res, next) => {
@@ -42,37 +42,49 @@ router.get(
     }
 );
 
+//Get all Groups joined or organized by the Current User
+router.get(
+    '/current',
+    requireAuth,
+    async (req, res, next) => {
+        const { user } = req;
+        const userId = user.id;
 
-// router.get(
-//     '/current',
-//     async (req, res, next) => {
-//         const groups = await Group.findAll({
-//             include: {model: GroupImage}
-//         });
+        const foundUser = await User.findByPk(userId, {
+            include: {model: Membership}
+        })
+        const userPlusGroups = foundUser.toJSON();
+        const userMemberships = userPlusGroups.Memberships;
+        const userGroups = [];
 
-//         for(let group of groups) {
-//             const numMembers = await Membership.count({
-//                 where: {
-//                     groupId: group.id
-//                 }
-//             });
-//             group.dataValues.numMembers = numMembers;
-//             for (let image of group.dataValues.GroupImages){
-//                 if (image.preview === true) {
-//                     group.dataValues.previewImage = image.url
-//                 };
+        for (let membership of userMemberships) {
+            const group = await Group.findByPk(membership.groupId,
+                { include: GroupImage });
+            const groupToPush = group.toJSON();
 
-//             };
-//             if (!group.dataValues.previewImage) group.dataValues.previewImage = 'This group does not have a preview image'
-//             delete group.dataValues.GroupImages
-//         }
+            const numMembers = await Membership.count({
+                where: {
+                    groupId: groupToPush.id
+                }
+            });
+            groupToPush.numMembers = numMembers;
 
-//         const groupsObj = {};
-//         groupsObj.Groups = groups;
+            for (let image of groupToPush.GroupImages){
+                if (image.preview === true) {
+                    groupToPush.previewImage = image.url
+                };
+            };
+            if (!groupToPush.previewImage) groupToPush.previewImage = 'This group does not have a preview image'
+            delete groupToPush.GroupImages;
+            userGroups.push(groupToPush);
+        }
 
-//         res.json(groupsObj);
-//     }
-// );
+        const groupsObj = {};
+        groupsObj.Groups = userGroups;
+
+        res.json(groupsObj);
+    }
+);
 
 
 
