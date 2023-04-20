@@ -127,9 +127,223 @@ router.get(
 );
 
 
+const validateNewGroup = [
+    check('name')
+      .exists({ checkFalsy: true })
+      .isString()
+      .isLength({max: 60})
+      .withMessage("Name must be 60 characters or less"),
+    check('about')
+      .exists({ checkFalsy: true })
+      .isString()
+      .isLength({ min: 50 })
+      .withMessage('About must be 50 characters or more'),
+    check('type')
+      .isIn(['Online', 'In person', 'In Person'])
+      .withMessage('Username cannot be an email.'),
+    check('private')
+      .exists({ checkFalsy: true })
+      .isBoolean()
+      .withMessage('Private must be a boolean'),
+    check('city')
+      .exists({ checkFalsy: true })
+      .isString()
+      .withMessage("City is required"),
+    check('state')
+      .exists({ checkFalsy: true })
+      .isString()
+      .withMessage("State is required"),
+    handleValidationErrors
+  ];
 
 
 
+//Create A Group
+router.post( '/', [requireAuth, validateNewGroup],
+    async (req, res, next) => {
+
+        const { user } = req;
+        const userId = user.id;
+        const { name, about, type, private, city, state } = req.body
+
+        const newGroup = new Group({
+            organizerId: userId,
+            name,
+            about,
+            type,
+            private,
+            city,
+            state
+        });
+
+        await newGroup.save();
+
+        return res.status(401).json(newGroup);
+
+    }
+);
+
+// Add an Image to a Group based on the Group's id
+router.post( '/:groupId/images', [requireAuth],
+    async (req, res, next) => {
+
+        const { user } = req;
+        const userId = user.id;
+
+        const groupId = req.params.groupId;
+
+        const { url, preview } = req.body;
+
+        const group = await Group.findByPk(groupId);
+
+        if (!group) {
+            const err = new Error();
+            err.message = "Group couldn't be found";
+            return res.status(404).json(err);
+        }
+
+        if (group.organizerId != userId) {
+            const err = new Error();
+            err.message = 'Forbidden';
+            return res.status(403).json(err);
+        };
+
+        const newImage = new GroupImage({
+            groupId: groupId,
+            url,
+            preview
+        })
+
+        await newImage.save();
+
+        const resObj = {
+            id: newImage.id,
+            url: newImage.url,
+            preview: newImage.preview
+        };
+
+        return res.json(resObj);
+
+    }
+);
+
+
+// Edit A Group
+
+router.put( '/:groupId', [requireAuth],
+    async (req, res, next) => {
+
+        const { user } = req;
+        const userId = user.id;
+
+        const groupId = req.params.groupId;
+
+        const { name, about, type, private, city, state } = req.body;
+
+        const group = await Group.findByPk(groupId);
+
+        if (!group) {
+            const err = new Error();
+            err.message = "Group couldn't be found";
+            return res.status(404).json(err);
+        }
+
+        if (group.organizerId != userId) {
+            const err = new Error();
+            err.message = 'Forbidden';
+            return res.status(403).json(err);
+        };
+
+        const errors = {};
+
+        if(name){
+            if (name.length > 60){
+                errors.name = "Name must be 60 characters or less"
+            } else {
+                group.name = name;
+            }
+        }
+        if(about) {
+            if(about.length < 50) {
+                errors.about = "About must be 50 characters or more"
+            } else {
+                group.about = about;
+            }
+        }
+        if(type) {
+            if(type === 'Online' || type === 'In person' || type === 'In Person') {
+                group.type = type;
+            } else {
+                errors.type = "Type must be 'Online' or 'In person'"
+            }
+        }
+        if(!(private === true || private === false)) {
+            if(private != true || private != 'true' || private != false || private != 'false') {
+                errors.private = "Private must be a boolean"
+            } else {
+                group.private = private;
+            }
+        };
+        if (private === true || private === false) group.private = private;
+        if(city) {
+            if(typeof city != 'string') {
+                errors.city = "City is required"
+            } else {
+                group.city = city;
+            }
+        }
+        if(state) {
+            if(typeof state != 'string') {
+                errors.state = "State is required"
+            } else {
+                group.state = state;
+
+            }
+        }
+        console.log(errors)
+
+        if (errors.name || errors.about || errors.type || errors.private || errors.city || errors.state) {
+            const err = new Error();
+            err.message = 'Bad Request';
+            err.errors = errors;
+            return res.status(400).json(err);
+        }
+
+        await group.save();
+
+        return res.json(group);
+
+    }
+);
+
+router.delete( '/:groupId', [requireAuth],
+    async (req, res, next) => {
+
+        const { user } = req;
+        const userId = user.id;
+
+        const groupId = req.params.groupId;
+
+        const group = await Group.findByPk(groupId);
+
+        if (!group) {
+            const err = new Error();
+            err.message = "Group couldn't be found";
+            return res.status(404).json(err);
+        }
+
+        if (group.organizerId != userId) {
+            const err = new Error();
+            err.message = 'Forbidden';
+            return res.status(403).json(err);
+        };
+
+        await group.destroy();
+
+        return res.json({message: "Successfully deleted"})
+
+    }
+);
 
 
 
