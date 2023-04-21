@@ -229,7 +229,6 @@ router.post( '/:groupId/images', [requireAuth],
 
 
 // Edit A Group
-
 router.put( '/:groupId', [requireAuth],
     async (req, res, next) => {
 
@@ -316,6 +315,8 @@ router.put( '/:groupId', [requireAuth],
     }
 );
 
+
+// Delete A Group
 router.delete( '/:groupId', [requireAuth],
     async (req, res, next) => {
 
@@ -341,6 +342,139 @@ router.delete( '/:groupId', [requireAuth],
         await group.destroy();
 
         return res.json({message: "Successfully deleted"})
+
+    }
+);
+
+
+// Get All Venues for a Group specified by its id
+router.get( '/:groupId/venues', [requireAuth],
+    async (req, res, next) => {
+        const { user } = req;
+        const userId = user.id;
+
+        const groupId = req.params.groupId;
+        const group = await Group.findByPk(groupId, {
+            include: [{model: Venue, attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }}, {model: Membership}]
+        });
+
+        if (!group) {
+            const err = new Error();
+            err.message = "Group couldn't be found";
+            return res.status(404).json(err);
+        };
+
+        const editGroup = group.toJSON();
+        const memberships = editGroup.Memberships;
+
+        let currentUserStatus;
+        for (let member of memberships) {
+            if (userId === member.userId) {
+                currentUserStatus = member.status
+            };
+        };
+
+        if (group.organizerId != userId && (currentUserStatus !== 'host' && currentUserStatus !== 'co-host')) {
+            const err = new Error();
+            err.message = 'Forbidden';
+            return res.status(403).json(err);
+        };
+
+        const resObj = {};
+        resObj.Venues = group.Venues;
+
+        res.json(resObj);
+
+    }
+);
+
+
+
+const validateNewVenue = [
+    check('address')
+      .exists({ checkFalsy: true })
+      .isString()
+      .withMessage("Street address is required"),
+    check('city')
+      .exists({ checkFalsy: true })
+      .isString()
+      .withMessage("City is required"),
+    check('state')
+      .isString()
+      .withMessage('State is required'),
+    check('lat')
+      .exists({ checkFalsy: true })
+      .withMessage("Latitude is not valid"),
+    check('lng')
+      .exists({ checkFalsy: true })
+      .withMessage("Longitude is not valid"),
+    handleValidationErrors
+  ];
+
+
+
+// Create a new Venue for a Group specified by its id
+router.post( '/:groupId/venues', [requireAuth, validateNewVenue],
+    async (req, res, next) => {
+
+        const { user } = req;
+        const userId = user.id;
+
+        const groupId = req.params.groupId;
+
+        const group = await Group.findByPk(groupId, {
+            include: [{model: Membership}]
+        });
+
+        if (!group) {
+            const err = new Error();
+            err.message = "Group couldn't be found";
+            return res.status(404).json(err);
+        }
+
+        const editGroup = group.toJSON();
+        const memberships = editGroup.Memberships;
+
+        let currentUserStatus;
+        for (let member of memberships) {
+            if (userId === member.userId) {
+                currentUserStatus = member.status
+            };
+        };
+
+        if (group.organizerId != userId && (currentUserStatus !== 'host' && currentUserStatus !== 'co-host')) {
+            const err = new Error();
+            err.message = 'Forbidden';
+            return res.status(403).json(err);
+        };
+
+        const { address, city, state, lat, lng} = req.body;
+
+        const newVenue = new Venue({
+            groupId: groupId,
+            address,
+            city,
+            state,
+            lat,
+            lng
+        });
+
+        await newVenue.save();
+
+        resObj = {
+            id: newVenue.id,
+            groupId: groupId,
+            address,
+            city,
+            state,
+            lat,
+            lng
+        }
+
+        res.json(resObj);
+
 
     }
 );
