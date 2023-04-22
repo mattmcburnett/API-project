@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     type: {
-      type: DataTypes.ENUM('In Person', 'Online'),
+      type: DataTypes.ENUM('In Person', 'Online', 'In person'),
       defaultValue: 'In Person',
       allowNull: false
     },
@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     price: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.NUMBER,
       allowNull:false,
       defaultValue: 0
     },

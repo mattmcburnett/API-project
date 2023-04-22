@@ -38,7 +38,7 @@ module.exports = {
         allowNull: false
       },
       type: {
-        type: Sequelize.ENUM('In Person', 'Online'),
+        type: Sequelize.ENUM('In Person', 'Online', 'In person'),
         defaultValue: 'In Person',
         allowNull: false
       },
@@ -47,7 +47,7 @@ module.exports = {
         allowNull: false
       },
       price: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.NUMBER,
         allowNull: false
       },
       startDate: {
