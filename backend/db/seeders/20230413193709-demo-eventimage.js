@@ -22,8 +22,18 @@ module.exports = {
       },
       {
         eventId: 3,
-        url: 'https://www.fakeimage.com/1',
+        url: 'https://www.fakeimage.com/10',
         preview: true
+      },
+      {
+        eventId: 4,
+        url: 'https://www.fakeimage.com/45',
+        preview: true
+      },
+      {
+        eventId: 5,
+        url: 'https://www.fakeimage.com/1000001',
+        preview: false
       },
 
     ]);
@@ -33,7 +43,7 @@ module.exports = {
     options.tableName = 'EventImages';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      eventId: { [Op.in]: [1, 2, 3] }
+      eventId: { [Op.in]: [1, 2, 3, 4, 5] }
     });
   }
 };

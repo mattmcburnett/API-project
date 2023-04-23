@@ -34,6 +34,26 @@ module.exports = {
         about: 'Bookworms Unite!',
         type: 'Online',
         private: true,
+        city: 'Anywhere',
+        state: 'Your Location'
+      },
+      {
+        organizerId: 4,
+        name: 'Outdoor Friends',
+        about: "Let's get outiside! Hiking, backpacking, climbing, and anything else you could do outdoors.",
+        type: 'In Person',
+        private: false,
+        city: 'Bellingham',
+        state: 'WA'
+      },
+      {
+        organizerId: 5,
+        name: 'DnD Meetup',
+        about: 'Plz be a DM. plz plz plz plz plz plz plz plz plz',
+        type: 'In Person',
+        private: true,
+        city: 'San Diego',
+        state: 'CA'
       },
 
 
@@ -44,7 +64,7 @@ module.exports = {
     options.tableName = 'Groups';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['Dance It Up', 'Bend It Like Beckham', 'Read It and Weep'] }
+      name: { [Op.in]: ['Dance It Up', 'Bend It Like Beckham', 'Read It and Weep', 'Outdoor Friends', 'Dnd Meetup'] }
     });
   }
 };

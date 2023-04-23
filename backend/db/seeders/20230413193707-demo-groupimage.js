@@ -25,6 +25,21 @@ module.exports = {
         url: 'https://www.fakeimage.com/6',
         preview: true
       },
+      {
+        groupId: 4,
+        url: 'https://www.fakeimage.com/7',
+        preview: true
+      },
+      {
+        groupId: 5,
+        url: 'https://www.fakeimage.com/8',
+        preview: true
+      },
+      {
+        groupId: 4,
+        url: 'https://www.fakeimage.com/9',
+        preview: false
+      }
 
 
     ]);
@@ -34,7 +49,7 @@ module.exports = {
     options.tableName = 'GroupImages';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      groupId: { [Op.in]: [1, 2, 3] }
+      groupId: { [Op.in]: [1, 2, 3, 4, 5] }
     });
   }
 };

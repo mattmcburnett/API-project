@@ -42,6 +42,28 @@ module.exports = {
         price: 0,
         startDate: new Date('2023-05-30'),
         endDate: new Date('2023-12-31')
+      },
+      {
+        venueId: 4,
+        groupId: 4,
+        name: 'Hiking Time',
+        description: 'Into the Woods',
+        type: 'In Person',
+        capacity: 10,
+        price: 0,
+        startDate: new Date('2023-05-30'),
+        endDate: new Date('2023-12-31')
+      },
+      {
+        venueId: 5,
+        groupId: 5,
+        name: 'Game',
+        description: 'Bring your best',
+        type: 'Online',
+        capacity: 10,
+        price: 15,
+        startDate: new Date('2023-05-30'),
+        endDate: new Date('2023-12-31')
       }
 
     ]);
@@ -51,7 +73,7 @@ module.exports = {
     options.tableName = 'Events';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['Dance Party', 'Soccer Match', 'Book Club'] }
+      name: { [Op.in]: ['Dance Party', 'Soccer Match', 'Book Club', 'Hiking Time', 'Game'] }
     });
   }
 };

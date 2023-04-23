@@ -9,16 +9,78 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
+
+
 // Get All Events
 router.get( '/',
     async (req, res, next) => {
 
+        let {page, size, name, type, startDate} = req.query;
+        const where = {};
+        pagination = {};
+        page = parseInt(page);
+        size = parseInt(size);
+        if (!page) {
+            page = 1;
+        };
+        if(!size) {
+            size = 20;
+        };
+
+        const errors = {};
+
+        if (page < 1 || page > 10 || typeof page !== 'number') {
+            errors.page = "Page must be greater than or equal to 1 and no greater than 10"
+        };
+
+        if (size < 1 || size > 20 || typeof size !== 'number') {
+            errors.size = "Size must be greater than or equal to 1"
+        };
+
+        const limit = size;
+        const offset = size * (page - 1);
+
+        if(name) {
+            if (typeof name !== 'string') {
+                errors.name = "Name must be a string"
+            } else {
+                where.name = name;
+            }
+        };
+
+        if(type) {
+            if(type !== 'Online' && type !== 'In person' && type !== 'In Person') {
+                errors.type = "Type must be 'Online' or 'In Person'"
+            } else {
+                where.type = type
+            }
+        };
+
+        if (startDate) {
+            if (startDate.length > 10 || startDate.length < 8) {
+                errors.startDate = "Start date must be a valid datetime"
+            } else {
+                where.startDate = startDate
+            }
+        };
+
+        // handle errors after filter
+        if (errors.page || errors.size || errors.name || errors.type || errors.startDate) {
+            const err = new Error();
+            err.message = "Bad Request";
+            err.errors = errors;
+            return res.status(400).json(err);
+        }
+
         const events = await Event.findAll({
+            where: where,
             include: [
                 {model: Group, attributes: ['id', 'name', 'city', 'state']},
                 {model: Venue, attributes: ['id', 'city', 'state']},
                 {model: Attendance},
-                {model: EventImage}]
+                {model: EventImage}],
+                limit,
+                offset
         })
 
         for (let event of events) {

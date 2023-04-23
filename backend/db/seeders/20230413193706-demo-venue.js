@@ -28,8 +28,28 @@ module.exports = {
       },
       {
         groupId: 3,
-        address: 'README Zoom Room'
-      }
+        address: 'README Zoom Room',
+        city: 'everywhere',
+        state: 'everwhere',
+        lat: 10.000000,
+        lng: 10.000000
+      },
+      {
+        groupId: 4,
+        address: '123 Drink Ems',
+        city: 'Bellingham',
+        state: 'WA',
+        lat: 10.000000,
+        lng: 10.000000
+      },
+      {
+        groupId: 5,
+        address: 'DnD at the Beach',
+        city: 'San Diego',
+        state: 'CA',
+        lat: 10.000000,
+        lng: 10.000000
+      },
 
     ]);
   },
@@ -38,7 +58,7 @@ module.exports = {
     options.tableName = 'Venues';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      groupId: { [Op.in]: [1, 2, 3] }
+      groupId: { [Op.in]: [1, 2, 3, 4, 5] }
     });
   }
 };
