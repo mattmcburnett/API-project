@@ -10,7 +10,7 @@ const { restoreUser } = require("../../utils/auth.js");
 
 
 router.post('/test', function(req, res) {
-    res.json({ requestBody: req.body });
+    res.json({ message: 'success', requestBody: req.body });
 });
 
 const { setTokenCookie } = require('../../utils/auth.js');
