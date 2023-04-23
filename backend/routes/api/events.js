@@ -325,6 +325,280 @@ router.delete( '/:eventId', [requireAuth],
 );
 
 
+// Get all Attendees of an Event specified by its id
+router.get( '/:eventId/attendees',
+    async (req, res, next) => {
+        const { user } = req;
+        const userId = user.id;
+        const eventId = req.params.eventId;
+
+        const event = await Event.findByPk(eventId,{
+            include: [{model: Attendance, include: {model: User}}, {model: Group, include: {model: Membership}}]
+        });
+
+        if (!event) {
+            const err = new Error();
+            err.message = "Event couldn't be found";
+            return res.status(404).json(err);
+        }
+
+        const memberships = event.Group.Memberships
+        let currentUserRole;
+        for (let mem of memberships) {
+            if (userId === mem.userId) {
+                currentUserRole = mem.status;
+            };
+        };
+
+
+        const attendances = event.Attendances;
+        const attendanceArray = [];
+        for (let att of attendances) {
+            let attObj = {}
+
+            if (att.status === 'pending' && (currentUserRole === 'host' || currentUserRole === 'co-host' || userId === event.Group.organizerId)) {
+                attObj = {
+                    id: att.userId,
+                    firstName: att.User.firstName,
+                    lastname: att.User.lastName,
+                    Attendance: {status: att.status}
+                }
+                attendanceArray.push(attObj);
+            };
+
+            if (att.status !== 'pending') {
+                attObj = {
+                    id: att.userId,
+                    firstName: att.User.firstName,
+                    lastname: att.User.lastName,
+                    Attendance: {status: att.status}
+                };
+                attendanceArray.push(attObj);
+            }
+        }
+
+        resObj = {
+            Attendees: attendanceArray
+        };
+
+        res.json(resObj);
+
+    }
+);
+
+
+
+
+// Request to Attend an Event based on the Event's id
+router.post( '/:eventId/attendance', [requireAuth],
+    async (req, res, next) => {
+        const { user } = req;
+        const userId = user.id;
+        const eventId = req.params.eventId;
+        const event = await Event.findByPk(eventId,{
+            include: [{model: Attendance}, {model: Group, include: {model: Membership}}] //may not need user
+        });
+
+        if (!event) {
+            const err = new Error();
+            err.message = "Event couldn't be found";
+            return res.status(404).json(err);
+        };
+
+        const members = event.Group.Memberships;
+        let isMember = false;
+        for (let mem of members) {
+            if (userId === mem.userId) {
+                isMember = true
+            }
+        };
+
+        if (isMember === false) {
+            const err = new Error();
+            err.message = "Must be a member of the group.";
+            return res.status(404).json(err);
+        };
+
+
+
+
+
+        const attendances = event.Attendances;
+        for (let att of attendances) {
+            if(userId === att.userId) {
+                if(att.status === 'pending') {
+                    const err = new Error();
+                    err.message = "Attendance has already been requested";
+                    return res.status(400).json(err);
+                } else {
+                    const err = new Error();
+                    err.message = "User is already an attendee of the event";
+                    return res.status(400).json(err);
+                }
+            };
+        };
+
+        const newAttendance = new Attendance({
+            eventId: event.id,
+            userId: userId,
+            status: 'pending'
+        });
+
+        await newAttendance.save();
+
+        const resObj = {
+            userId: userId,
+            status: newAttendance.status
+        };
+
+
+        return res.json(resObj)
+
+    }
+);
+
+
+
+
+// Change the status of an attendance for an event specified by id
+router.put( '/:eventId/attendance', [requireAuth],
+    async (req, res, next) => {
+        const { user } = req;
+        const currentUserId = user.id;
+        const eventId = req.params.eventId;
+        const { userId, status } = req.body;
+
+        if(status === 'pending') {
+            const err = new Error();
+            err.message = "Cannot change an attendance status to pending";
+            return res.status(400).json(err);
+        }
+
+        const event = await Event.findByPk(eventId,{
+            include: [{model: Group, include:[{model:Membership}]}, {model: Attendance}]
+        });
+
+
+        if (!event) {
+            const err = new Error();
+            err.message = "Event couldn't be found";
+            return res.status(404).json(err);
+        }
+
+
+        const memberships = event.Group.Memberships
+        let currentUserRole;
+        for (let mem of memberships) {
+            if (currentUserId === mem.userId) {
+                currentUserRole = mem.status;
+            };
+        };
+
+
+        if (currentUserRole !== 'co-host' && currentUserId !== event.Group.organizerId) {
+            const err = new Error();
+            err.message = "Forbidden";
+            return res.status(403).json(err);
+        };
+
+        const attendances = event.Attendances;
+        let attendanceId;
+        for (let att of attendances) {
+            if (att.userId === userId) {
+                attendanceId = att.id
+            }
+        };
+
+        if(!attendanceId) {
+            const err = new Error();
+            err.message = "Attendance between the user and the event does not exist";
+            return res.status(404).json(err);
+        };
+
+        const attendanceToUpdate = await Attendance.findByPk(attendanceId);
+
+        attendanceToUpdate.status = status;
+
+        await attendanceToUpdate.save();
+
+        resObj = {
+            userId: userId,
+            status: attendanceToUpdate.status
+        }
+
+        return res.json(attendanceToUpdate);
+
+    }
+);
+
+
+
+
+
+// Delete attendance to an event specified by id
+router.delete( '/:eventId/attendance', [requireAuth],
+    async (req, res, next) => {
+        const { user } = req;
+        const currentUserId = user.id;
+        const eventId = req.params.eventId;
+        const { userId } = req.body;
+
+
+
+        const event = await Event.findByPk(eventId,{
+            include: [{model: Group, include:[{model:Membership}]}, {model: Attendance}]
+        });
+
+
+        if (!event) {
+            const err = new Error();
+            err.message = "Event couldn't be found";
+            return res.status(404).json(err);
+        }
+
+
+        const memberships = event.Group.Memberships
+        let currentUserRole;
+        for (let mem of memberships) {
+            if (currentUserId === mem.userId) {
+                currentUserRole = mem.status;
+            };
+        };
+
+
+        if (currentUserRole !== 'host' && currentUserId !== event.Group.organizerId && currentUserId !== userId) {
+            const err = new Error();
+            err.message = "Only the User or organizer may delete an Attendance";
+            return res.status(403).json(err);
+        };
+
+        const attendances = event.Attendances;
+        let attendanceId;
+        for (let att of attendances) {
+            if (att.userId === userId) {
+                attendanceId = att.id
+            };
+        };
+
+        if(!attendanceId) {
+            const err = new Error();
+            err.message = "Attendance does not exist for this User";
+            return res.status(404).json(err);
+        };
+
+        const attendanceToDelete = await Attendance.findByPk(attendanceId);
+
+        await attendanceToDelete.destroy();
+
+        return res.json({message: "Successfully deleted attendance from event"});
+
+    }
+);
+
+
+
+
+
 
 
 module.exports = router;
