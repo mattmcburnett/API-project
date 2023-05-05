@@ -784,7 +784,7 @@ router.put(
                 currentUserStatus = member.status
             };
         };
-        // users not in the gorup, pending, or basic members can't update
+        // users not in the group, pending, or basic members can't update
         if (!currentUserStatus || currentUserStatus === 'pending' || currentUserStatus === 'member') {
             const err = new Error();
             err.message = "Forbidden";
@@ -798,14 +798,11 @@ router.put(
             return res.status(400).json(err);
         };
 
-        //
         if (userId !== group.organizerId && (status === 'co-host' || status === 'host')) {
             const err = new Error();
             err.message = "Forbidden";
             return res.status(403).json(err);
         };
-
-        console.log(memberships)
 
         const membership = await Membership.findOne({
             where: {
