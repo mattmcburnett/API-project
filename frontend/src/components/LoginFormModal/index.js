@@ -33,6 +33,9 @@ function LoginFormModal() {
   return (
     <div id="login-form">
       <h2>Log In</h2>
+      {errors.credential && (
+          <p>{errors.credential}</p>
+        )}
       <form onSubmit={handleSubmit} className="main-form">
         <label className="form-comp">
           Username or Email
@@ -54,9 +57,6 @@ function LoginFormModal() {
             className="form-comp"
           />
         </label>
-        {errors.credential && (
-          <p>{errors.credential}</p>
-        )}
         <button type="submit" id="login-button">Log In</button>
       </form>
         <a id="demo-user">Demo User</a>
