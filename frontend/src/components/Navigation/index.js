@@ -6,11 +6,10 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
-
   return (
     <ul>
       <li>
-        <NavLink exact to="/">Home</NavLink>
+        <NavLink exact to="/"><p>Meetup</p></NavLink>
       </li>
       {isLoaded && (
         <li>
@@ -20,5 +19,6 @@ function Navigation({ isLoaded }){
     </ul>
   );
 }
+
 
 export default Navigation;
