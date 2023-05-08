@@ -9,7 +9,7 @@ function Navigation({ isLoaded }){
   return (
     <ul>
       <li>
-        <NavLink exact to="/"><p>Meetup</p></NavLink>
+        <NavLink exact to="/"><p>Greetup</p></NavLink>
       </li>
       {isLoaded && (
         <li>
