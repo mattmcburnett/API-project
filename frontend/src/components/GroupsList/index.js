@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getAllGroups } from '../../store/groups';
@@ -7,12 +7,16 @@ import { getAllGroups } from '../../store/groups';
 function GroupsList({isLoaded}) {
 
     const dispatch = useDispatch();
-    // console.log(state)
-    const groups = useSelector((state) => Object.values(state.Groups));
+    const groups = useSelector( state => Object.values(state.Groups) );
+    console.log(groups)
+
 
     useEffect(() => {
         dispatch(getAllGroups())
-    })
+    }, [dispatch])
+
+    if (groups === undefined) return null;
+    if(Object.values(groups).length === 0) return null
 
     return (
         <div>
