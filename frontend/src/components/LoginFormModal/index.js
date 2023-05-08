@@ -12,7 +12,7 @@ function LoginFormModal() {
   const { closeModal } = useModal();
 
   useEffect(() => {
-    
+
   })
 
   const handleSubmit = (e) => {
@@ -22,8 +22,10 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
+        console.log(data)
         if (data && data.errors) {
           setErrors(data.errors);
+          console.log(data.errors)
         }
       });
   };
