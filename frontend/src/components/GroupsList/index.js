@@ -3,44 +3,51 @@ import { NavLink, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getAllGroups } from '../../store/groups';
+import './GroupsList.css';
 
 function GroupsList({isLoaded}) {
 
     const dispatch = useDispatch();
-    const groups = useSelector( state => Object.values(state.Groups) );
-    console.log(groups)
+    const groupsState = useSelector( state => state.groups );
+    const groups = Object.values(groupsState);
+
+    console.log("GroupsList:", groups);
 
 
+    //executing all the code in getAllGroups until dispatch (line 21)
+    //then executes that dispatch
     useEffect(() => {
-        dispatch(getAllGroups())
+        dispatch(getAllGroups());
     }, [dispatch])
 
-    if (groups === undefined) return null;
     if(Object.values(groups).length === 0) return null
 
     return (
-        <div>
-            <div>
-                <h2>Events</h2>
-                <h2>Groups</h2>
+        <div id='main'>
+            <div id='header-links'>
+                <NavLink to={'/events'}><h2 className='all-links'>Events</h2></NavLink>
+                <NavLink to={'/groups'}><h2 className='all-links'>Groups</h2></NavLink>
             </div>
             <h3>Groups in GreetUp</h3>
             <ul id='groups-list'>
-                {Object.values(groups).map(({ id, name, city, state, previewImage}))}
-                    <li key={id} className='group-list-item'>
-                        <NavLink>
-                            <img src={previewImage}/>
-                            <div>
-                                <h2>{name}</h2>
-                                <h3>{city}, {state}</h3>
-                                <p>{about}</p>
+                {groups.map((group) => (
+                    <li key={group.id} className='group-list-item'>
+                        {/* <NavLink> */}
+                            <img src={group.previewImage} className='image'/>
+                            <div className='info'>
+                                <h2>{group.name}</h2>
+                                <h3>{group.city}, {group.state}</h3>
+                                <p>{group.about}</p>
                                 <div>
                                     <h3># of Events - Still to Do*</h3>
-                                    {/* <h3>{private} - write conditional</h3> */}
+                                    {group.private === false && (<h3>Public</h3>)}
+                                    {group.private === true && (<h3>Private</h3>)}
+                                    {console.log(group.private)}
                                 </div>
                             </div>
-                        </NavLink>
+                        {/* </NavLink> */}
                     </li>
+                ))}
             </ul>
         </div>
     )

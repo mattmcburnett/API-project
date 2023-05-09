@@ -17,6 +17,7 @@ export const getAllGroups = () => async (dispatch) => {
 
     if(response.ok) {
     const groups = await response.json();
+    console.log('get all groups groups: ',groups)
     dispatch(loadGroups(groups));
     return groups
     };
@@ -28,13 +29,33 @@ const initialState = {};
 
 //Reducer
 
+// const normalize = (data) => {
+//     return data.reduce((acc, value) => {
+//         acc[value.id] = value;
+//         return acc;
+//     }, {})
+// };
+
+const normalize = (data) => {
+    const map = {};
+    data.forEach(value => {
+        map[value.id] = value
+    });
+    return map;
+}
+
 const groupsReducer = (state = initialState, action) => {
+    console.log('ACTION LOG: ', action)
     switch (action.type) {
         case LOAD_GROUPS:
-            const groupsState = {};
-            action.groups.forEach(group => {
-                groupsState[group.id] = group;
-            });
+            // const groupsState = [];
+            // console.log('action.groups: ',action.groups)
+            // action.groups.Groups.forEach(group => {
+            //     console.log('justin log', group)
+            //     groupsState.push(group);
+            // });
+            // console.log( 'GroupState: ' ,groupsState)
+            const groupsState = normalize(action.groups.Groups);
             return groupsState;
         default:
             return state;

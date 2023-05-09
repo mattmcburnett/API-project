@@ -1,0 +1,16 @@
+#main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#groups-list {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+#header-links {
+    display: flex;
+}
