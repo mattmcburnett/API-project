@@ -32,7 +32,7 @@ function GroupsList({isLoaded}) {
             <ul id='groups-list'>
                 {groups.map((group) => (
                     <li key={group.id} className='group-list-item'>
-                        {/* <NavLink> */}
+                        <NavLink className='group-link' to={`/groups/${group.id}`}>
                             <img src={group.previewImage} className='image'/>
                             <div className='info'>
                                 <h2>{group.name}</h2>
@@ -45,7 +45,7 @@ function GroupsList({isLoaded}) {
                                     {console.log(group.private)}
                                 </div>
                             </div>
-                        {/* </NavLink> */}
+                        </NavLink>
                     </li>
                 ))}
             </ul>

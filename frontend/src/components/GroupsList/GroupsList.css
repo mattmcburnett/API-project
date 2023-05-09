@@ -14,3 +14,7 @@
 #header-links {
     display: flex;
 }
+
+.group-link {
+    color: black;
+}

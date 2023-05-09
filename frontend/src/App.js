@@ -4,6 +4,8 @@ import { Switch, Route } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import GroupsList from "./components/GroupsList";
+import GroupPage from "./components/GroupPage";
+import HomePage from "./components/HomePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,7 +19,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded &&
       <Switch>
+        <Route exact path='/' component={HomePage} />
         <Route exact path='/groups' component={GroupsList} />
+        <Route path='/groups/:groupId' component={GroupPage} />
       </Switch>}
     </>
   );

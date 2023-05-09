@@ -1,5 +1,6 @@
 //Action Type Constants
-export const LOAD_GROUPS = 'groups/LOAD_GROUPS'
+export const LOAD_GROUPS = 'groups/LOAD_GROUPS';
+export const ONE_GROUP = 'groups/ONE_GROUP';
 
 //Action Creators
 export const loadGroups = (groups) => {
@@ -8,6 +9,11 @@ export const loadGroups = (groups) => {
         groups
     };
 };
+
+export const oneGroup = (group) => ({
+    type: ONE_GROUP,
+    group
+})
 
 //Thunk Action Creators
 
@@ -23,19 +29,27 @@ export const getAllGroups = () => async (dispatch) => {
     };
 };
 
+export const groupDetails = (groupId) => async (dispatch) => {
+
+    const response = await fetch(`/api/groups/${groupId}`)
+    if (response.ok) {
+        const group = await response.json();
+        dispatch(oneGroup(group));
+        return group;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+
+}
+
 
 
 const initialState = {};
 
 //Reducer
 
-// const normalize = (data) => {
-//     return data.reduce((acc, value) => {
-//         acc[value.id] = value;
-//         return acc;
-//     }, {})
-// };
-
+//data normalizing function
 const normalize = (data) => {
     const map = {};
     data.forEach(value => {
@@ -45,7 +59,7 @@ const normalize = (data) => {
 }
 
 const groupsReducer = (state = initialState, action) => {
-    console.log('ACTION LOG: ', action)
+    // console.log('ACTION LOG: ', action)
     switch (action.type) {
         case LOAD_GROUPS:
             // const groupsState = [];
@@ -57,6 +71,9 @@ const groupsReducer = (state = initialState, action) => {
             // console.log( 'GroupState: ' ,groupsState)
             const groupsState = normalize(action.groups.Groups);
             return groupsState;
+        case ONE_GROUP:
+            // console.log(action.group)
+            return {...state, [action.group.id]: action.group };
         default:
             return state;
     }
