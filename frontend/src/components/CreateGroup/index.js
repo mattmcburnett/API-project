@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { createGroup } from '../../../store/groups';
+import { createGroup } from '../../store/groups';
 import { useHistory } from 'react-router-dom';
 import {useDispatch} from 'react-redux'
 

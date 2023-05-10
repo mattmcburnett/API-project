@@ -6,7 +6,7 @@ import Navigation from "./components/Navigation";
 import GroupsList from "./components/GroupsList";
 import GroupPage from "./components/GroupPage";
 import HomePage from "./components/HomePage";
-import CreateGroup from "./components/GroupPage/CreateGroup";
+import CreateGroup from "./components/CreateGroup";
 
 function App() {
   const dispatch = useDispatch();
