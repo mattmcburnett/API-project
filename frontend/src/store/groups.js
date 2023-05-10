@@ -4,6 +4,7 @@ import { csrfFetch } from "./csrf";
 export const LOAD_GROUPS = 'groups/LOAD_GROUPS';
 export const ONE_GROUP = 'groups/ONE_GROUP';
 export const ADD_GROUP = 'groups/ADD_GROUP';
+export const REMOVE_GROUP = 'groups/REMOVE_GROUP';
 
 //Action Creators
 export const loadGroups = (groups) => {
@@ -20,6 +21,11 @@ export const oneGroup = (group) => ({
 
 export const addGroup = (group) => ({
     type: ADD_GROUP,
+    group
+})
+
+export const removeGroup = (group) => ({
+    type: REMOVE_GROUP,
     group
 })
 
@@ -75,12 +81,25 @@ export const createGroup = ({city, state, name, about, type, privacy}) => async 
         dispatch(addGroup(newGroup));
         // return newGroup
     } else {
-        console.log(response)
+        // console.log(response)
+        //return errors and display
+        const errors = await response.json();
+        console.log(errors);
+        return errors
     }
-
-
 }
 
+export const deleteGroup = (groupId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
+        method: 'DELETE'
+    });
+    if (response.ok) {
+        dispatch(removeGroup(groupId))
+    } else {
+        const errors = await response.json();
+        return errors;
+      }
+}
 
 
 const initialState = {};
@@ -113,7 +132,11 @@ const groupsReducer = (state = initialState, action) => {
             // console.log(action.group)
             return {...state, [action.group.id]: action.group };
         case ADD_GROUP:
-            return {...state, [action.group.id]: action.group}
+            return {...state, [action.group.id]: action.group};
+        case REMOVE_GROUP:
+            const newState = {...state};
+            delete newState[action.groupId];
+            return newState;
         default:
             return state;
     }

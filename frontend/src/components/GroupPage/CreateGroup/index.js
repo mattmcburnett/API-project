@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createGroup } from '../../../store/groups';
 import { useHistory } from 'react-router-dom';
 import {useDispatch} from 'react-redux'
@@ -16,37 +16,60 @@ function CreateGroup() {
     const history = useHistory();
     const dispatch = useDispatch();
 
+    useEffect( () => {
+        const city = location.split(',')[0];
+        const state = location.split(',')[1];
+
+        const newErrors = {}
+        if((city && city.length < 1) || (state && state.length < 1) || city === undefined || state === undefined) newErrors.location = 'Location is required';
+        if(name.length < 1) newErrors.name = 'Name is required';
+        if(about.length < 30) newErrors.about = 'Description must be at least 30 characters long';
+        if(type !== 'In person' && type !== 'Online') newErrors.type = 'Group Type is required';
+        if((privacy !== 'true' && privacy !== 'false') || privacy === '(select one)') newErrors.privacy = 'Visibility Type is required';
+        if(!(imageUrl.endsWith('.png') || imageUrl.endsWith('.jpg') || imageUrl.endsWith('.jpeg'))) {
+            newErrors.imageUrl = 'Image URL must end in .jpg, .jpeg, or .png'
+        }
+        setErrors(newErrors);
+    }, [location, name, about, type, privacy, imageUrl])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const city = location.split(',')[0];
         const state = location.split(',')[1];
+
+
         setErrors({});
-        // if(city.length < 1 || state.length < 1) errors.location = 'Location is required';
-        if(name.length < 1) errors.name = 'Name is required';
-        if(about.length < 30) errors.about = 'Description must be at least 30 characters long';
-        if(!type) errors.type = 'Group Type is required';
-        if(!privacy) errors.privacy = 'Visibility Type is required';
+        const newErrors = {}
+        if((city && city.length < 1) || (state && state.length < 1) || city === undefined || state === undefined) newErrors.location = 'Location is required';
+        if(name.length < 1) newErrors.name = 'Name is required';
+        if(about.length < 30) newErrors.about = 'Description must be at least 30 characters long';
+        if(type !== 'In person' && type !== 'Online') newErrors.type = 'Group Type is required';
+        if((privacy !== 'Private' && privacy !== 'Public') || privacy === '(select one)') newErrors.privacy = 'Visibility Type is required';
         if(!(imageUrl.endsWith('.png') || imageUrl.endsWith('.jpg') || imageUrl.endsWith('.jpeg'))) {
-            errors.imageUrl = 'Image URL must end in ".jpg", ".jpeg", or ".png"'
+            newErrors.imageUrl = 'Image URL must end in .jpg, .jpeg, or .png'
         }
-        if (Object.values(errors).length > 0) {
-            return errors;
-        }
+        setErrors(newErrors);
+
+        console.log(errors)
+        // if (Object.values(errors).length > 0) {
+        //     // return errors;
+        // }
         // console.log(privacy)
         // const organizerId
-
-        const group = await dispatch(createGroup({
-            // organizerId,
-            city,
-            state,
-            name,
-            about,
-            type,
-            privacy
-        }));
-        console.log('Group => ', group)
-        history.push(`/groups/${group.id}`);
+        if(!Object.values(errors).length) {
+            const group = await dispatch(createGroup({
+                // organizerId,
+                city,
+                state,
+                name,
+                about,
+                type,
+                privacy
+            }));
+            console.log('Group => ', group.json())
+            history.push(`/groups/${group.id}`);
+        }
     };
 
     return (
@@ -117,8 +140,8 @@ function CreateGroup() {
                         <option disabled>
                             (select one)
                         </option>
-                        <option onSelect={(e) => setPrivacy(e.target.value)} value={true}>Private</option>
-                        <option onSelect={(e) => setPrivacy(e.target.value)} value={false}>Public</option>
+                        <option onChange={(e) => setPrivacy(e.target.value)} value={true}>Private</option>
+                        <option onChange={(e) => setPrivacy(e.target.value)} value={false}>Public</option>
                     </select>
                     {errors.privacy && (<p className='errors'>{errors.privacy}</p>)}
                     <p>Please add an image url for your group below:</p>

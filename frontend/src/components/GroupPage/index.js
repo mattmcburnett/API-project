@@ -7,16 +7,16 @@ import { useParams } from 'react-router-dom'
 import './GroupPage.css';
 
 
-// handleClick function for joining the group
-
-
-function GroupPage() {
+function GroupPage({store}) {
     const { groupId } = useParams();
     const group = useSelector( state => state.groups[groupId]);
-    console.log('group: ',group);
+
+    // console.log('group: ',group);
 
     const dispatch = useDispatch();
     // console.log('groupId: ', parseInt(groupId))
+    const user = useSelector(state => state.session.user)
+    // console.log('User => ', user)
 
     useEffect(() => {
         dispatch(groupDetails(groupId))
@@ -26,13 +26,14 @@ function GroupPage() {
     if (!group.GroupImages) return null
 
     const groupImages = Object.values(group.GroupImages)
-    console.log('GroupImages', groupImages)
+    // console.log('GroupImages', groupImages)
     let previewImageUrl;
     groupImages.forEach(image => {
         if(image.preview === true) {
             previewImageUrl = image.url
         }
     });
+
 
     return (
         <div id='wrapper'>
@@ -46,9 +47,17 @@ function GroupPage() {
                         <h3>## events</h3>
                         <h3>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
                     </div>
-                    <div className='button-div'>
+                    {user.id === group.organizerId ?
+                        (<div>
+                            <button className='action-buttons'>Create Event</button>
+                            <button className='action-buttons'>Update</button>
+                            <button type='button' className='action-buttons'>Delete</button>
+                        </div>)
+                        :
+                        (<div className='button-div'>
                         <button className='join-button'>Join this group</button>
-                    </div>
+                    </div>)
+                    }
                 </div>
             </div>
             <div className='group-details'>
