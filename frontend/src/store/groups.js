@@ -1,6 +1,9 @@
+import { csrfFetch } from "./csrf";
+
 //Action Type Constants
 export const LOAD_GROUPS = 'groups/LOAD_GROUPS';
 export const ONE_GROUP = 'groups/ONE_GROUP';
+export const ADD_GROUP = 'groups/ADD_GROUP';
 
 //Action Creators
 export const loadGroups = (groups) => {
@@ -12,6 +15,11 @@ export const loadGroups = (groups) => {
 
 export const oneGroup = (group) => ({
     type: ONE_GROUP,
+    group
+});
+
+export const addGroup = (group) => ({
+    type: ADD_GROUP,
     group
 })
 
@@ -40,6 +48,36 @@ export const groupDetails = (groupId) => async (dispatch) => {
         const errors = await response.json();
         return errors;
     }
+
+};
+
+export const createGroup = ({city, state, name, about, type, privacy}) => async (dispatch) => {
+
+    // console.log(city)
+    const response = await csrfFetch('/api/groups', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            city,
+            state,
+            name,
+            about,
+            type,
+            private: privacy
+        })
+    });
+    // console.log('response => ', response)
+
+    if (response.ok) {
+        const newGroup = await response.json();
+        dispatch(addGroup(newGroup));
+        // return newGroup
+    } else {
+        console.log(response)
+    }
+
 
 }
 
@@ -74,6 +112,8 @@ const groupsReducer = (state = initialState, action) => {
         case ONE_GROUP:
             // console.log(action.group)
             return {...state, [action.group.id]: action.group };
+        case ADD_GROUP:
+            return {...state, [action.group.id]: action.group}
         default:
             return state;
     }

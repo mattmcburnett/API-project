@@ -31,7 +31,7 @@ function HomePage() {
             </div>
             <div>
               <img></img>
-              <NavLink to='/groups'>Start a new group</NavLink>
+              <NavLink to='/groups/new'>Start a new group</NavLink>
               <p>Info about Start a new group</p>
             </div>
           </div>

@@ -6,6 +6,7 @@ import Navigation from "./components/Navigation";
 import GroupsList from "./components/GroupsList";
 import GroupPage from "./components/GroupPage";
 import HomePage from "./components/HomePage";
+import CreateGroup from "./components/GroupPage/CreateGroup";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function App() {
       <Switch>
         <Route exact path='/' component={HomePage} />
         <Route exact path='/groups' component={GroupsList} />
+        <Route exact path='/groups/new' component={CreateGroup} />
         <Route path='/groups/:groupId' component={GroupPage} />
       </Switch>}
     </>

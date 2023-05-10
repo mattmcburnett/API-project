@@ -23,7 +23,7 @@ function GroupPage() {
     }, [dispatch, groupId]);
 
     if(group === undefined) return null
-    // if (Object.values(group).length === 0) return null
+    if (!group.GroupImages) return null
 
     const groupImages = Object.values(group.GroupImages)
     console.log('GroupImages', groupImages)
