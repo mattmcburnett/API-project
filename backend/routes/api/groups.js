@@ -16,7 +16,7 @@ router.get(
     '/',
     async (req, res, next) => {
         const groups = await Group.findAll({
-            include: {model: GroupImage}
+            include: [{model: GroupImage}, {model:Event}]
         });
 
         for(let group of groups) {
@@ -38,6 +38,7 @@ router.get(
 
         const groupsObj = {};
         groupsObj.Groups = groups;
+        // console.log(groupsObj)
 
         res.json(groupsObj);
     }
@@ -96,7 +97,9 @@ router.get(
         const group = await Group.findByPk(groupId, {
             include: [
                 {model: GroupImage, attributes: ['id', 'url', 'preview']},
-                {model: Venue, attributes: {exclude: ['createdAt', 'updatedAt']}}]
+                {model: Venue, attributes: {exclude: ['createdAt', 'updatedAt']}},
+                {model: Event}
+            ]
         })
         //error handling
         if(!group) {

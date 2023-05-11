@@ -1,33 +1,44 @@
 import { useState, useEffect } from 'react'
-import { createGroup } from '../../store/groups';
-import { useHistory } from 'react-router-dom';
-import {useDispatch} from 'react-redux'
+import { createGroup, groupDetails } from '../../store/groups';
+import { useHistory, useParams } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+
 
 
 function EditGroup() {
-
-    const [errors, setErrors] = useState({});
-    const [location, setLocation] = useState('');
-    const [name, setName] = useState('');
-    const [about, setAbout] = useState('');
-    const [type, setType] = useState('(select one)');
-    const [privacy, setPrivacy] = useState('(select one)');
-    const [imageUrl, setImageUrl] = useState('');
-    const history = useHistory();
     const dispatch = useDispatch();
 
+    const { groupId } = useParams();
+    console.log('groupId => ', groupId) //this works
+
+    useEffect(() => {
+        dispatch(groupDetails(groupId))
+    }, [dispatch, groupId]);
+
+
+    let originalGroup = useSelector( state => state.groups[groupId]);
+    console.log('originalGroup =>', originalGroup) //undefined
+
+
+    const [errors, setErrors] = useState({});
+    const [location, setLocation] = useState(`${originalGroup.city}, ${originalGroup.state}`);
+    const [name, setName] = useState(originalGroup.name);
+    const [about, setAbout] = useState(originalGroup.about);
+    const [type, setType] = useState(originalGroup.type);
+    const [privacy, setPrivacy] = useState(originalGroup.privacy);
+    // const [imageUrl, setImageUrl] = useState('');
+    const history = useHistory();
+
     useEffect( () => {
-        // const city = location.split(',')[0];
-        // const state = location.split(',')[1];
-        // setErrors(newErrors)
+
         setLocation(location);
         setName(name);
         setAbout(about);
         setType(type);
         setPrivacy(privacy);
-        setImageUrl(imageUrl)
-        // console.log(privacy)
-    }, [location, name, about, type, privacy, imageUrl])
+
+    }, [location, name, about, type, privacy])
+   
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -37,21 +48,16 @@ function EditGroup() {
         const state = location.split(',')[1];
 
         let newErrors = {}
-        // setErrors(newErrors);
-        // console.log('errors', errors)
         newErrors = {}
-        // console.log(privacy)
-        // console.log('newErrors', newErrors)
+
         if((city && city.length < 1) || (state && state.length < 1) || city === undefined || state === undefined ) {
             newErrors.location = 'Location is required';
         }
         if(name.length < 1) newErrors.name = 'Name is required';
-        // console.log('errors 2 =>', errors)
         if(about.length < 30) newErrors.about = 'Description must be at least 30 characters long';
         if(type !== 'In person' && type !== 'Online') newErrors.type = 'Group Type is required';
         if(privacy !== 'true' && privacy !== 'false') newErrors.privacy = 'Visibility Type is required';
 
-        // console.log('newErr', newErrors)
         setErrors(newErrors);
 
         if (Object.values(newErrors).length > 0) {
@@ -62,6 +68,7 @@ function EditGroup() {
         console.log('errors 3 =>', errors)
         console.log('name => ', name)
         if(!Object.values(newErrors).length) {
+            const updates = {}
             const group = await dispatch(createGroup({
                 city,
                 state,
@@ -79,7 +86,8 @@ function EditGroup() {
 
     return (
         <div>
-            <h2>We'll walk you through a few steps to build your local community</h2>
+            <p>UPDATE YOUR GROUP'S INFORMATION</p>
+            <h2>We'll walk you through a few steps to update your group's information</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <h2>First, set your group's location.</h2>
@@ -150,7 +158,7 @@ function EditGroup() {
                     {errors.privacy && (<p className='errors'>{errors.privacy}</p>)}
                 </div>
                 <div>
-                    <button onSubmit={handleSubmit} type='submit'>Create group</button>
+                    <button onSubmit={handleSubmit} type='submit'>Update group</button>
                 </div>
             </form>
         </div>

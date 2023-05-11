@@ -5,6 +5,7 @@ export const LOAD_GROUPS = 'groups/LOAD_GROUPS';
 export const ONE_GROUP = 'groups/ONE_GROUP';
 export const ADD_GROUP = 'groups/ADD_GROUP';
 export const REMOVE_GROUP = 'groups/REMOVE_GROUP';
+export const EDIT_GROUP = 'groups/EDIT_GROUP'
 
 //Action Creators
 export const loadGroups = (groups) => {
@@ -26,6 +27,11 @@ export const addGroup = (group) => ({
 
 export const removeGroup = (group) => ({
     type: REMOVE_GROUP,
+    group
+})
+
+export const editGroup = (group) => ({
+    type: EDIT_GROUP,
     group
 })
 
@@ -117,11 +123,23 @@ export const deleteGroup = (groupId) => async (dispatch) => {
 
 
 //Update a group
+export const updateGroup = (group) => async (dispatch) => {
+    const response = await csrfFetch(`/api/groups/${group.id}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+            },
+        body: JSON.stringify(group)
+    });
 
-export const updateGroup = (groupId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/groups/${groupId}`, {
-        method: 'PUT'
-    })
+    if (response.ok) {
+        const updatedGroup = await response.json();
+        dispatch(editGroup(updatedGroup));
+        return updatedGroup;
+      } else {
+        const errors = await response.json();
+        return errors;
+      }
 }
 
 
@@ -129,7 +147,7 @@ const initialState = {};
 
 //Reducer
 
-//data normalizing function
+//data normalizing function - using reduce would also work
 const normalize = (data) => {
     const map = {};
     data.forEach(value => {
@@ -160,6 +178,8 @@ const groupsReducer = (state = initialState, action) => {
             const newState = {...state};
             delete newState[action.groupId];
             return newState;
+        case EDIT_GROUP:
+            return {...state, [action.group.id]: action.group};
         default:
             return state;
     }

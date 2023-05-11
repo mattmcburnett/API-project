@@ -9,11 +9,11 @@ import './GroupPage.css';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 
 
-function GroupPage({store}) {
+function GroupPage() {
     const { groupId } = useParams();
     const group = useSelector( state => state.groups[groupId]);
 
-    // console.log('group: ',group);
+    console.log('group => ',group);
 
     // const params = useParams();
     // console.log('params ->', params)
@@ -39,7 +39,10 @@ function GroupPage({store}) {
             previewImageUrl = image.url
         }
     });
-    console.log(previewImageUrl)
+    console.log('previewImageUrl => ', previewImageUrl);
+
+    const events = group.Events;
+    console.log('events => ', events)
 
     return (
         <div id='wrapper'>
@@ -50,7 +53,7 @@ function GroupPage({store}) {
                     <div id='group-title'><h2>{group.name}</h2></div>
                     <div id='group-subheader'>
                         <h3>{`${group.city}, ${group.state}`}</h3>
-                        <h3>## events</h3>
+                        <h3>{events.length}</h3>
                         <h3>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
                     </div>
                     {user.id === group.organizerId ?

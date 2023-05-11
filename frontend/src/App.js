@@ -7,6 +7,7 @@ import GroupsList from "./components/GroupsList";
 import GroupPage from "./components/GroupPage";
 import HomePage from "./components/HomePage";
 import CreateGroup from "./components/CreateGroup";
+import EditGroup from "./components/EditGroup";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +24,8 @@ function App() {
         <Route exact path='/' component={HomePage} />
         <Route exact path='/groups' component={GroupsList} />
         <Route path='/groups/new' component={CreateGroup} />
-        <Route path='/groups/:groupId' component={GroupPage} />
+        <Route exact path='/groups/:groupId' component={GroupPage} />
+        <Route path='/groups/:groupId/edit' component={EditGroup}/>
       </Switch>}
     </>
   );
