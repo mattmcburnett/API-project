@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { groupDetails } from '../../store/groups';
 import { useParams } from 'react-router-dom'
-
+// import OpenDeleteGroupModal from '../DeleteGroupModal/OpenDeleteGroupModal';
+import DeleteGroupModal from '../DeleteGroupModal';
 import './GroupPage.css';
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 
 
 function GroupPage({store}) {
@@ -12,6 +14,10 @@ function GroupPage({store}) {
     const group = useSelector( state => state.groups[groupId]);
 
     // console.log('group: ',group);
+
+    // const params = useParams();
+    // console.log('params ->', params)
+
 
     const dispatch = useDispatch();
     // console.log('groupId: ', parseInt(groupId))
@@ -33,13 +39,13 @@ function GroupPage({store}) {
             previewImageUrl = image.url
         }
     });
-
+    console.log(previewImageUrl)
 
     return (
         <div id='wrapper'>
             {/* <div><Link to={'/groups'}>Groups</Link></div> */}
             <div id='group-header'>
-                <img src={group.previewImage}/>
+                <img src={previewImageUrl}/>
                 <div id='preview-info'>
                     <div id='group-title'><h2>{group.name}</h2></div>
                     <div id='group-subheader'>
@@ -51,7 +57,11 @@ function GroupPage({store}) {
                         (<div>
                             <button className='action-buttons'>Create Event</button>
                             <button className='action-buttons'>Update</button>
-                            <button type='button' className='action-buttons'>Delete</button>
+                            <OpenModalMenuItem
+                                itemText='Delete'
+                                modalComponent={<DeleteGroupModal groupId={groupId}/>}
+                                isButton={true}
+                            />
                         </div>)
                         :
                         (<div className='button-div'>

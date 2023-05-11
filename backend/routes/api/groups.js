@@ -179,7 +179,7 @@ router.post( '/', [requireAuth, validateNewGroup],
 
         await newGroup.save();
 
-        return res.status(401).json(newGroup);
+        return res.json(newGroup);
 
     }
 );
@@ -235,11 +235,8 @@ router.put( '/:groupId', [requireAuth],
 
         const { user } = req;
         const userId = user.id;
-
         const groupId = req.params.groupId;
-
         const { name, about, type, private, city, state } = req.body;
-
         const group = await Group.findByPk(groupId);
 
         if (!group) {

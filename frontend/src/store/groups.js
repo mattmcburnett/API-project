@@ -57,7 +57,7 @@ export const groupDetails = (groupId) => async (dispatch) => {
 
 };
 
-export const createGroup = ({city, state, name, about, type, privacy}) => async (dispatch) => {
+export const createGroup = ({city, state, name, about, type, privacy, imageUrl}) => async (dispatch) => {
 
     // console.log(city)
     const response = await csrfFetch('/api/groups', {
@@ -78,8 +78,21 @@ export const createGroup = ({city, state, name, about, type, privacy}) => async 
 
     if (response.ok) {
         const newGroup = await response.json();
+        //add image
+        const imgRes = await csrfFetch(`/api/groups/${newGroup.id}/images`, {
+            method: 'POST',
+            headers: {
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                url: imageUrl,
+                groupId: newGroup.id,
+                preview: true
+            })
+        });
+
         dispatch(addGroup(newGroup));
-        // return newGroup
+        return newGroup
     } else {
         // console.log(response)
         //return errors and display
@@ -87,8 +100,9 @@ export const createGroup = ({city, state, name, about, type, privacy}) => async 
         console.log(errors);
         return errors
     }
-}
+};
 
+// Delete a group
 export const deleteGroup = (groupId) => async (dispatch) => {
     const response = await csrfFetch(`/api/groups/${groupId}`, {
         method: 'DELETE'
@@ -98,7 +112,16 @@ export const deleteGroup = (groupId) => async (dispatch) => {
     } else {
         const errors = await response.json();
         return errors;
-      }
+    }
+};
+
+
+//Update a group
+
+export const updateGroup = (groupId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/groups/${groupId}`, {
+        method: 'PUT'
+    })
 }
 
 

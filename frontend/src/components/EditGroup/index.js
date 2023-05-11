@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import {useDispatch} from 'react-redux'
 
 
-function CreateGroup() {
+function EditGroup() {
 
     const [errors, setErrors] = useState({});
     const [location, setLocation] = useState('');
@@ -38,45 +38,37 @@ function CreateGroup() {
 
         let newErrors = {}
         // setErrors(newErrors);
-        console.log('errors', errors)
+        // console.log('errors', errors)
         newErrors = {}
-        console.log(privacy)
-        console.log('newErrors', newErrors)
+        // console.log(privacy)
+        // console.log('newErrors', newErrors)
         if((city && city.length < 1) || (state && state.length < 1) || city === undefined || state === undefined ) {
             newErrors.location = 'Location is required';
         }
         if(name.length < 1) newErrors.name = 'Name is required';
-        console.log('errors 2 =>', errors)
+        // console.log('errors 2 =>', errors)
         if(about.length < 30) newErrors.about = 'Description must be at least 30 characters long';
         if(type !== 'In person' && type !== 'Online') newErrors.type = 'Group Type is required';
         if(privacy !== 'true' && privacy !== 'false') newErrors.privacy = 'Visibility Type is required';
 
-        if(!(imageUrl.endsWith('.png') || imageUrl.endsWith('.jpg') || imageUrl.endsWith('.jpeg'))) {
-            newErrors.imageUrl = 'Image URL must end in .jpg, .jpeg, or .png'
-        }
-        console.log('newErr', newErrors)
-        // console.log(errors)
+        // console.log('newErr', newErrors)
         setErrors(newErrors);
-        // console.log(errors)
 
         if (Object.values(newErrors).length > 0) {
             return errors;
         }
-        // console.log(privacy)
-        // const organizerId
+
         console.log('Object.values => ', Object.values(errors).length)
         console.log('errors 3 =>', errors)
         console.log('name => ', name)
         if(!Object.values(newErrors).length) {
             const group = await dispatch(createGroup({
-                // organizerId,
                 city,
                 state,
                 name,
                 about,
                 type,
                 privacy,
-                imageUrl
             }));
             console.log('Group => ', group)
             history.push(`/groups/${group.id}`);
@@ -156,14 +148,6 @@ function CreateGroup() {
                         <option onChange={(e) => setPrivacy(e.target.value)} value={false}>Public</option>
                     </select>
                     {errors.privacy && (<p className='errors'>{errors.privacy}</p>)}
-                    <p>Please add an image url for your group below:</p>
-                    <input
-                        type='text'
-                        placeholder='Image Url'
-                        onChange={(e) => setImageUrl(e.target.value)}
-                        value={imageUrl}
-                    />
-                    {errors.imageUrl && (<p className='errors'>{errors.imageUrl}</p>)}
                 </div>
                 <div>
                     <button onSubmit={handleSubmit} type='submit'>Create group</button>
@@ -173,4 +157,4 @@ function CreateGroup() {
     )
 }
 
-export default CreateGroup;
+export default EditGroup;
