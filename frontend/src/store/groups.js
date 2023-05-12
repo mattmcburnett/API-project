@@ -46,7 +46,10 @@ export const getAllGroups = () => async (dispatch) => {
     console.log('get all groups groups: ',groups)
     dispatch(loadGroups(groups));
     return groups
-    };
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
 };
 
 export const groupDetails = (groupId) => async (dispatch) => {

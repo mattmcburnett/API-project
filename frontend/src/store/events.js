@@ -15,6 +15,16 @@ export const loadEvents = (events) => ({
     events
 });
 
+export const oneEvent = (event) => ({
+    type: ONE_EVENT,
+    event
+});
+
+export const addEvent = (event) => ({
+    type: ADD_EVENT,
+    event
+});
+
 
 
 //Thunk Action Creators
@@ -28,6 +38,71 @@ export const getAllEvents = () => async (dispatch) => {
     dispatch(loadEvents(events));
     return events
     };
+};
+
+
+export const eventDetails = (eventId) => async (dispatch) => {
+
+    const response = await fetch(`/api/events/${eventId}`)
+    if (response.ok) {
+        const event = await response.json();
+        dispatch(oneEvent(event));
+        return event;
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+
+};
+
+export const createEvent = ({name, type, price, startDate, endDate, description, imageUrl, groupId, organizerId, venueId}) => async (dispatch) => {
+    console.log('groupId =>', groupId);
+    console.log('typeof groupId => ', typeof groupId)
+    // console.log(city)
+    const response = await csrfFetch(`/api/groups/${groupId}/events`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            groupId,
+            organizerId,
+            venueId,
+            name,
+            type,
+            price,
+            description,
+            startDate,
+            endDate,
+            capacity: 20
+        })
+    });
+    // console.log('response => ', response)
+
+    if (response.ok) {
+        const newEvent = await response.json();
+        //add image
+        const imgRes = await csrfFetch(`/api/events/${newEvent.id}/images`, {
+            method: 'POST',
+            headers: {
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                url: imageUrl,
+                eventId: newEvent.id,
+                preview: true
+            })
+        });
+
+        dispatch(addEvent(newEvent));
+        return newEvent
+    } else {
+        // console.log(response)
+        //return errors and display
+        const errors = await response.json();
+        console.log(errors);
+        return errors
+    }
 };
 
 
@@ -50,7 +125,9 @@ const eventsReducer = (state = initialState, action) => {
             const eventsState = normalize(action.events.Events);
             return eventsState;
         case ONE_EVENT:
-            return {...state, [action.event.id]: action.event};
+            const singleEvent = action.event
+            return {singleEvent}
+            // return {...state, [action.event.id]: action.event};
         case ADD_EVENT:
             return {...state, [action.event.id]: action.event};
         case REMOVE_EVENT:

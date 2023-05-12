@@ -119,7 +119,9 @@ router.get( '/:eventId',
         const event = await Event.findByPk(eventId, {
             attributes: { exclude: ['createdAt', 'updatedAt']},
             include: [
-                {model: Group, attributes: ['id', 'name', 'private', 'city', 'state']},
+                {model: Group, attributes: ['id', 'name', 'private', 'city', 'state', 'organizerId'],
+                    include: [{model: User, attributes: ['firstName', 'lastName']},
+                              {model: GroupImage}]},
                 {model: Venue, attributes: ['id', 'address', 'city', 'state', 'lat', 'lng']},
                 {model: EventImage, attributes: { exclude: ['createdAt', 'updatedAt', 'eventId']}},
                 {model: Attendance}

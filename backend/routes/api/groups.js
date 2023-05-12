@@ -550,21 +550,21 @@ const validateNewEvent = [
       .isInt()
       .withMessage("Capacity must be an integer"),
     check('price')
-      .exists({ checkFalsy: true })
-      .isDecimal()
+      .exists()
+      .isNumeric()
       .withMessage("Price is invalid"),
     check('description')
       .exists({ checkFalsy: true })
       .isString()
       .withMessage("Description is required"),
     check('startDate')
-      .exists({ checkFalsy: true })
-      .isDate()
-      .withMessage("Start date must be in the future"),
+      .exists()
+    //   .isDate()
+      .withMessage("invalid start date"),
     check('endDate')
-      .exists({ checkFalsy: true })
-      .isDate()
-      .withMessage("End date is less than start date"),
+      .exists()
+    //   .isDate()
+      .withMessage("invalid end date"),
       handleValidationErrors
 ]
 
@@ -575,6 +575,8 @@ router.post( '/:groupId/events', [requireAuth, validateNewEvent],
         const { user } = req;
         const userId = user.id;
         const groupId = req.params.groupId;
+
+        console.log('req body price =======>', req.body.price)
 
         const group = await Group.findByPk(groupId, {
             include: [{model: Membership}]
