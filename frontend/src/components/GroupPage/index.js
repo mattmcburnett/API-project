@@ -1,8 +1,8 @@
-import React, {NavLink, Link} from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { groupDetails } from '../../store/groups';
-import { useParams } from 'react-router-dom'
+import { useParams, NavLink, Link } from 'react-router-dom'
 // import OpenDeleteGroupModal from '../DeleteGroupModal/OpenDeleteGroupModal';
 import DeleteGroupModal from '../DeleteGroupModal';
 import './GroupPage.css';
@@ -46,20 +46,25 @@ function GroupPage() {
 
     return (
         <div id='wrapper'>
-            {/* <div><Link to={'/groups'}>Groups</Link></div> */}
             <div id='group-header'>
+                <div>
+                    <p>{'<'}</p>
+                    <NavLink id='breadcrumb' to={'/groups'}>Groups</NavLink>
+                </div>
                 <img src={previewImageUrl}/>
                 <div id='preview-info'>
                     <div id='group-title'><h2>{group.name}</h2></div>
                     <div id='group-subheader'>
                         <h3>{`${group.city}, ${group.state}`}</h3>
                         <h3>{events.length}</h3>
+                        <h3>·</h3>
+                        {group.privacy === true ? <h3>Private</h3> : <h3>Public</h3> }
                         <h3>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
                     </div>
                     {user.id === group.organizerId ?
                         (<div>
                             <button className='action-buttons'>Create Event</button>
-                            <button className='action-buttons'>Update</button>
+                            <NavLink to={`/groups/${groupId}/edit`}><button className='action-buttons'>Update</button></NavLink>
                             <OpenModalMenuItem
                                 itemText='Delete'
                                 modalComponent={<DeleteGroupModal groupId={groupId}/>}
@@ -85,14 +90,9 @@ function GroupPage() {
             </div>
             <div className='group-events'>
                 <h2>Upcoming Events (# - todo)</h2>
-                {/* <NavLink> */}
-                <div className='event-preview'>
-                    <div className='event-preview-header'>
-                        {/* <img></img> */}
 
-                    </div>
-                </div>
-                {/* </NavLink> */}
+                <h2>Past Events (# - todo)</h2>
+
             </div>
         </div>
     )

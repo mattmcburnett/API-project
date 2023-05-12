@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { createGroup, groupDetails } from '../../store/groups';
+import { updateGroup, groupDetails } from '../../store/groups';
 import { useHistory, useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -9,39 +9,40 @@ function EditGroup() {
     const dispatch = useDispatch();
 
     const { groupId } = useParams();
-    console.log('groupId => ', groupId) //this works
+    // console.log('groupId => ', groupId) //this works
 
-    useEffect(() => {
-        dispatch(groupDetails(groupId))
-    }, [dispatch, groupId]);
-
-
-    let originalGroup = useSelector( state => state.groups[groupId]);
-    console.log('originalGroup =>', originalGroup) //undefined
 
 
     const [errors, setErrors] = useState({});
-    const [location, setLocation] = useState(`${originalGroup.city}, ${originalGroup.state}`);
-    const [name, setName] = useState(originalGroup.name);
-    const [about, setAbout] = useState(originalGroup.about);
-    const [type, setType] = useState(originalGroup.type);
-    const [privacy, setPrivacy] = useState(originalGroup.privacy);
+    const [location, setLocation] = useState('');
+    const [name, setName] = useState('');
+    const [about, setAbout] = useState('');
+    const [type, setType] = useState('');
+    const [privacy, setPrivacy] = useState('');
     // const [imageUrl, setImageUrl] = useState('');
     const history = useHistory();
+    // let group;
 
-    useEffect( () => {
+    let group = useSelector( state => state.groups[groupId]);
+    useEffect(() => {
 
-        setLocation(location);
-        setName(name);
-        setAbout(about);
-        setType(type);
-        setPrivacy(privacy);
-
-    }, [location, name, about, type, privacy])
-   
+        dispatch(groupDetails(groupId))
+        .then(data => {
+            console.log(data)
+            setName(data.name)
+            setLocation(`${data.city}, ${data.state}`)
+            setAbout(data.about)
+            setType(data.type)
+            setPrivacy(data.private.toString())
+         } )
+    }, [ dispatch]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // console.log('group -> ', group)
+        console.log('privacy -> ', privacy)
+
         setErrors({})
         console.log('errors 1 => ', errors)
         const city = location.split(',')[0];
@@ -64,20 +65,19 @@ function EditGroup() {
             return errors;
         }
 
+        group.name = name;
+        group.about = about;
+        group.city = city;
+        group.state = state;
+        group.type = type;
+        group.privacy = privacy
+
         console.log('Object.values => ', Object.values(errors).length)
         console.log('errors 3 =>', errors)
         console.log('name => ', name)
         if(!Object.values(newErrors).length) {
-            const updates = {}
-            const group = await dispatch(createGroup({
-                city,
-                state,
-                name,
-                about,
-                type,
-                privacy,
-            }));
-            console.log('Group => ', group)
+            const updatedGroup = await dispatch(updateGroup(group));
+            console.log('Group => ', updatedGroup)
             history.push(`/groups/${group.id}`);
         }
     };
@@ -147,8 +147,7 @@ function EditGroup() {
                     <p>Is this group private or public?</p>
                     <select
                         onChange={(e) => setPrivacy(e.target.value)}
-                        value={privacy}
-                    >
+                        value={privacy}                    >
                         <option disabled>
                             (select one)
                         </option>

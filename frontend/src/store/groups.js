@@ -158,6 +158,8 @@ const normalize = (data) => {
 
 const groupsReducer = (state = initialState, action) => {
     // console.log('ACTION LOG: ', action)
+    const newState = {...state};
+
     switch (action.type) {
         case LOAD_GROUPS:
             // const groupsState = [];
@@ -171,11 +173,12 @@ const groupsReducer = (state = initialState, action) => {
             return groupsState;
         case ONE_GROUP:
             // console.log(action.group)
-            return {...state, [action.group.id]: action.group };
+            // newState.group = {...action.group}
+            // return newState;
+            return {...state, [action.group.id]: action.group};
         case ADD_GROUP:
             return {...state, [action.group.id]: action.group};
         case REMOVE_GROUP:
-            const newState = {...state};
             delete newState[action.groupId];
             return newState;
         case EDIT_GROUP:

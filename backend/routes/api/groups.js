@@ -297,7 +297,6 @@ router.put( '/:groupId', [requireAuth],
                 errors.state = "State is required"
             } else {
                 group.state = state;
-
             }
         }
         console.log(errors)
