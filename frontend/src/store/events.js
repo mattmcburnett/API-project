@@ -65,7 +65,7 @@ export const createEvent = ({name, type, price, startDate, endDate, description,
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            groupId,
+            groupId: Number(groupId),
             organizerId,
             venueId,
             name,
@@ -81,6 +81,7 @@ export const createEvent = ({name, type, price, startDate, endDate, description,
 
     if (response.ok) {
         const newEvent = await response.json();
+        console.log('newEvent =========> ', newEvent)
         //add image
         const imgRes = await csrfFetch(`/api/events/${newEvent.id}/images`, {
             method: 'POST',

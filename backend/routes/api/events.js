@@ -183,7 +183,9 @@ router.post( '/:eventId/images', [requireAuth],
             };
         };
 
-        if (currentUserAttendance !== 'attending' && currentUserRole !== 'host' && currentUserRole !== 'co-host') {
+        console.log('org id --------------', event.Group.organizerId)
+        if (currentUserAttendance !== 'attending' && currentUserRole !== 'host' && currentUserRole !== 'co-host'
+                && userId !== event.Group.organizerId) {
             const err = new Error();
             err.message = "Forbidden";
             return res.status(403).json(err);

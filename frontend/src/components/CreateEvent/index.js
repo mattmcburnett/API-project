@@ -18,6 +18,7 @@ function CreateEvent() {
     const history = useHistory();
     const dispatch = useDispatch();
     const {groupId} = useParams();
+    const groupIdNnumber = Number(groupId)
     const user = useSelector(state => state.session);
     const group = useSelector(state => state.groups[groupId]) //undefined
     console.log(group)
@@ -69,7 +70,7 @@ function CreateEvent() {
         // console.log('name => ', name)
         if(!Object.values(newErrors).length) {
             const event = await dispatch(createEvent({
-                groupId,
+                groupId: groupIdNnumber,
                 organizerId: user.id,
                 venueId: 2,
                 name,
@@ -80,7 +81,7 @@ function CreateEvent() {
                 endDate,
                 imageUrl
             }));
-            // console.log('Group => ', group)
+            console.log('newEvent => ', event)
             history.push(`/events/${event.id}`);
         }
     };
