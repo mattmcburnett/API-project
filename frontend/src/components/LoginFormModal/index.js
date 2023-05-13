@@ -15,6 +15,16 @@ function LoginFormModal() {
 
   })
 
+  //logs in demo user
+  const demoUserLogin = (e) => {
+    e.preventDefault();
+    return dispatch(sessionActions.login({
+      credential: 'FakeUser1',
+      password: 'password1'
+    }))
+      .then(closeModal)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -59,7 +69,7 @@ function LoginFormModal() {
         </label>
         <button type="submit" id="login-button">Log In</button>
       </form>
-        <a id="demo-user">Demo User</a>
+        <button onClick={demoUserLogin} id="demo-user">Demo User</button>
     </div>
   );
 }

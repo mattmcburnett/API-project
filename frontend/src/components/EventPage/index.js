@@ -18,6 +18,12 @@ function EventPage() {
     // console.log('groupId: ', parseInt(groupId))
     const user = useSelector(state => state.session.user)
     // console.log('User => ', user)
+    let userId;
+    if (user) {
+        userId = user.id
+    } else {
+        userId = null
+    };
 
     useEffect(() => {
         dispatch(eventDetails(eventId))
@@ -99,7 +105,7 @@ function EventPage() {
                         <div className='event-location'>
                             <p>location icon</p>
                             <p>{`${group.city}, ${group.state}`}</p>
-                            {user.id === group.organizerId ?
+                            {userId === group.organizerId ?
                                 <OpenModalMenuItem
                                 itemText='Delete'
                                 modalComponent={<DeleteEventModal eventId={eventId}/>}

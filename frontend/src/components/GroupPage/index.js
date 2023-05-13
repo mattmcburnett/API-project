@@ -22,7 +22,12 @@ function GroupPage() {
     // console.log('groupId: ', parseInt(groupId))
     const user = useSelector(state => state.session.user)
     console.log('User => ', user)
-
+    let userId
+    if(user) {
+        userId = user.id;
+    } else {
+        userId = null
+    }
     useEffect(() => {
         dispatch(groupDetails(groupId))
     }, [dispatch, groupId]);
@@ -61,9 +66,9 @@ function GroupPage() {
                         <h3>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
                     </div>
 
-                    {user.id === group.organizerId ?
+                    {userId === group.organizerId ?
                         (<div>
-                            <button className='action-buttons'>Create Event</button>
+                            <NavLink to={`/groups/${groupId}/events/new`}><button className='action-buttons'>Create Event</button></NavLink>
                             <NavLink to={`/groups/${groupId}/edit`}><button className='action-buttons'>Update</button></NavLink>
                             <OpenModalMenuItem
                                 itemText='Delete'
