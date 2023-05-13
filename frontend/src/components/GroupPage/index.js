@@ -12,7 +12,6 @@ import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 function GroupPage() {
     const { groupId } = useParams();
     const group = useSelector( state => state.groups[groupId]);
-
     console.log('group => ',group);
 
     // const params = useParams();
@@ -22,7 +21,7 @@ function GroupPage() {
     const dispatch = useDispatch();
     // console.log('groupId: ', parseInt(groupId))
     const user = useSelector(state => state.session.user)
-    // console.log('User => ', user)
+    console.log('User => ', user)
 
     useEffect(() => {
         dispatch(groupDetails(groupId))
@@ -61,6 +60,7 @@ function GroupPage() {
                         {group.privacy === true ? <h3>Private</h3> : <h3>Public</h3> }
                         <h3>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
                     </div>
+
                     {user.id === group.organizerId ?
                         (<div>
                             <button className='action-buttons'>Create Event</button>
