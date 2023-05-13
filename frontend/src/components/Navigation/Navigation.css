@@ -19,6 +19,8 @@ a {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 50px;
+    border-bottom: 2px solid lightgrey;
 }
 
 #greetup-logo {
@@ -28,3 +30,5 @@ a {
 .nav-links {
     padding: 10px;
 }
+
+

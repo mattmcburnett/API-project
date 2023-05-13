@@ -1,1 +1,16 @@
 
+#desk-image {
+    width: 360px;
+}
+
+#top-banner {
+    display: flex;
+    margin-bottom: 40px;
+    gap: 40px;
+}
+
+#home-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
