@@ -1,4 +1,4 @@
-import './DeleteGroupModal.css'
+import './DeleteGroupModal.css';
 import React, { useState, useEffect } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,13 +11,13 @@ function DeleteGroupModal({groupId}) {
     const history = useHistory()
     const dispatch = useDispatch();
     // const { groupId } = useParams();
-    const params = useParams();
-    console.log('params => ', params)
+    // const params = useParams();
+    // console.log('params => ', params)
     // console.log('groupId =>', groupId)
     const groups = useSelector( state => state.groups); //get groups on its own
     console.log('Groups => ', groups)
     const group = groups[groupId] //key into group
-    console.log(group)
+    // console.log(group)
 
     const { closeModal } = useModal();
 

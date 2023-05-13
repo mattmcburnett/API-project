@@ -25,6 +25,11 @@ export const addEvent = (event) => ({
     event
 });
 
+export const removeEvent = (event) => ({
+    type: REMOVE_EVENT,
+    event
+})
+
 
 
 //Thunk Action Creators
@@ -107,6 +112,21 @@ export const createEvent = ({name, type, price, startDate, endDate, description,
 };
 
 
+export const deleteEvent = (eventId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/events/${eventId}`, {
+        method: 'DELETE'
+    });
+    if (response.ok) {
+        dispatch(removeEvent(eventId))
+    } else {
+        const errors = await response.json();
+        return errors;
+    }
+};
+
+
+
+//Reducer
 const initialState = {};
 
 const normalize = (data) => {

@@ -20,15 +20,15 @@ function CreateEvent() {
     const {groupId} = useParams();
     const groupIdNnumber = Number(groupId)
     const user = useSelector(state => state.session);
-    const group = useSelector(state => state.groups[groupId]) //undefined
-    console.log(group)
+    // const group = useSelector(state => state.groups[groupId]) //undefined
+    // console.log(group)
     useEffect( () => {
 
         setName(name);
         setDescription(description);
         setType(type);
         setImageUrl(imageUrl);
-        setPrice(Number(price));
+        setPrice(price)
         setStartDate(startDate);
         setEndDate(endDate);
 
@@ -37,7 +37,7 @@ function CreateEvent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors({})
-
+        // setPrice(Number(price))
         let newErrors = {}
         // console.log('errors', errors)
         newErrors = {}
@@ -55,10 +55,13 @@ function CreateEvent() {
             newErrors.imageUrl = 'Image URL must end in .jpg, .jpeg, or .png'
         };
         if(description.length < 30) newErrors.description = 'Description must be at least 30 characters long';
-        // console.log('newErr', newErrors)
+        if(price < 1) newErrors.price = 'Price is required';
+        console.log('newErr', newErrors)
         // console.log(errors)
         setErrors(newErrors);
         // console.log(errors)
+
+
 
         if (Object.values(newErrors).length > 0) {
             return errors;
@@ -75,7 +78,7 @@ function CreateEvent() {
                 venueId: 2,
                 name,
                 type,
-                price: Number(price),
+                price,
                 description,
                 startDate,
                 endDate,
@@ -118,7 +121,7 @@ function CreateEvent() {
                     <div>
                         <p>What is the price of your event?</p>
                         <input
-                        type='text'
+                        type='number'
                         placeholder='0'
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}

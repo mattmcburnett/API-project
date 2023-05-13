@@ -4,7 +4,8 @@ import { useEffect } from 'react';
 import { groupDetails } from '../../store/groups';
 import { useParams, NavLink, Link } from 'react-router-dom'
 import { eventDetails } from '../../store/events';
-
+import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
+import DeleteEventModal from '../DeleteEventModal';
 
 
 function EventPage() {
@@ -74,7 +75,7 @@ function EventPage() {
                         <div className='event-group-info'>
                             <img src={groupPreviewImageUrl}/>
                             <h4 className='event-group-name'>{event.Group.name}</h4>
-                            {event.Group.private === true ?
+                            {event.Group.private === +true ?
                                 <p>Private</p>
                                 :
                                 <p>Public</p>
@@ -98,6 +99,15 @@ function EventPage() {
                         <div className='event-location'>
                             <p>location icon</p>
                             <p>{`${group.city}, ${group.state}`}</p>
+                            {user.id === group.organizerId ?
+                                <OpenModalMenuItem
+                                itemText='Delete'
+                                modalComponent={<DeleteEventModal eventId={eventId}/>}
+                                isButton={true}
+                                />
+                                :
+                                <></>
+                            }
 
                         </div>
                     </div>
