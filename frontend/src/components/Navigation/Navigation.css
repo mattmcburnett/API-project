@@ -31,4 +31,6 @@ a {
     padding: 10px;
 }
 
-
+.nav-links :hover {
+    cursor: pointer;
+}

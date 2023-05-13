@@ -18,6 +18,10 @@ button {
     cursor: pointer;
 }
 
+#demo-user :hover {
+    cursor: pointer;
+}
+
 
 
 .form-comp {
