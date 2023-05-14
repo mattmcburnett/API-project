@@ -36,11 +36,13 @@ function DeleteGroupModal({groupId}) {
     };
 
     return (
-        <div>
-            <h3>Confirm Delete</h3>
-            <p>Are you sure you want to remove this group?</p>
-            <button onClick={handleDelete} type='button'>Yes (Delete Group)</button>
-            <button onClick={backToGroup} type='button'>No (Keep Group)</button>
+        <div id='group-page-delete-group-modal-form'>
+            <h3 id='confirm-delete-group-header'>Confirm Delete</h3>
+            <p id='delete-group-sure'>Are you sure you want to remove this group?</p>
+            <div id='group-page-delete-group-modal-buttons'>
+                <button id='group-page-delete-group-button' onClick={handleDelete} type='button'>Yes (Delete Group)</button>
+                <button id='group-page-keep-group-button' onClick={backToGroup} type='button'>No (Keep Group)</button>
+            </div>
         </div>
     )
 }

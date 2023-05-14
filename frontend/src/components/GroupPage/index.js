@@ -66,115 +66,131 @@ function GroupPage() {
 
 
     return (
-        <div id='wrapper'>
-            <div id='group-header'>
-                <div>
-                    <p>{'<'}</p>
-                    <NavLink id='breadcrumb' to={'/groups'}>Groups</NavLink>
-                </div>
-                <img className='group-preview-image' src={previewImageUrl}/>
-                <div id='preview-info'>
-                    <div id='group-title'><h2>{group.name}</h2></div>
-                    <div id='group-subheader'>
-                        <h3>{`${group.city}, ${group.state}`}</h3>
-                        <h3>{events.length} event(s)</h3>
-                        <h3>·</h3>
-                        {group.privacy === true ? <h3>Private</h3> : <h3>Public</h3> }
-                        <h3>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
+        <div id='main-group-page-wrapper'>
+
+                <div id='group-page-body-wrapper'>
+                    <div id='group-page-breadcrumb-div'>
+                        <p>{'<'}</p>
+                        <NavLink id='group-page-breadcrumb' to={'/groups'}>Groups</NavLink>
                     </div>
-
-                    {userId === group.organizerId ?
-                        (<div>
-                            <NavLink to={`/groups/${groupId}/events/new`}><button className='action-buttons'>Create Event</button></NavLink>
-                            <NavLink to={`/groups/${groupId}/edit`}><button className='action-buttons'>Update</button></NavLink>
-                            <OpenModalMenuItem
-                                itemText='Delete'
-                                modalComponent={<DeleteGroupModal groupId={groupId}/>}
-                                isButton={true}
-                            />
-                        </div>)
-                        :
-                        (<div className='button-div'>
-                        <button className='join-button'>Join this group</button>
-                    </div>)
-                    }
-                </div>
-            </div>
-            <div className='group-details'>
-                <div className='organizer-info'>
-                    <h2>Organizer</h2>
-                    <div>{`${group.Organizer.firstName} ${group.Organizer.lastName}`}</div>
-                </div>
-                <div className='description'>
-                    <h2>What we're about</h2>
-                    <p>{group.about}</p>
-                </div>
-            </div>
-            <div className='group-events'>
-
-                {!events.length ?
-
-                    <h2>No Upcoming Events</h2>
-                    :
-                    <div id='upcoming-and-past-div'>
-
-                        { upcomingEvents.length ?
-                            <div>
-                                <h2>Upcoming Events ({upcomingEvents.length}) </h2>
-                                <ul id='events-list'>
-                                    {upcomingEvents.map((event) => (
-                                        <li key={event.id} className='event-list-item'>
-                                            <NavLink className='event-link' to={`/events/${event.id}`}>
-                                                <img src={'event.EventImages.find(image => image.preview === true).url'} className='image'/>
-                                                <div className='info'>
-                                                    <h3>{event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</h3>
-                                                    <h2>{event.name}</h2>
-                                                    <h3>{group.city}, {group.state}</h3>
-                                                    <p>{event.description}</p>
-                                                </div>
-                                            </NavLink>
-                                        </li>
-                                    ))}
-                                </ul>
+                    <div id='group-page-header'>
+                        <div>
+                        </div>
+                        <img className='group-preview-image-group-page' src={previewImageUrl}/>
+                        <div id='group-page-preview-info'>
+                            <div ><h2 id='group-page-group-title'>{group.name}</h2></div>
+                            <div id='group-page-group-subheader'>
+                                <h3 className='group-subheader-content'>{`${group.city}, ${group.state}`}</h3>
+                                <div id='group-page-events-and-privacy'>
+                                    <h3 className='group-subheader-content'>{events.length} event(s)</h3>
+                                    <h3 className='group-subheader-content'>·</h3>
+                                    {group.privacy === true ? <h3 className='group-subheader-content'>Private</h3> : <h3 className='group-subheader-content'>Public</h3> }
+                                </div>
+                                <h3 className='group-subheader-content'>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
                             </div>
 
-
-                            :
-                            <></>
-                        }
-
-                        { pastEvents.length ?
-                            <div>
-                                <h2>Past Events ({pastEvents.length}) </h2>
-                                <ul id='events-list'>
-                                    {pastEvents.map((event) => (
-                                        <li key={event.id} className='event-list-item'>
-                                            <NavLink className='event-link' to={`/events/${event.id}`}>
-                                                <img src={'event.EventImages.find(image => image.preview === true).url'} className='image'/>
-                                                <div className='info'>
-                                                    <h3>{event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</h3>
-                                                    <h2>{event.name}</h2>
-                                                    <h3>{group.city}, {group.state}</h3>
-                                                    <p>{event.description}</p>
-                                                </div>
-                                            </NavLink>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                            :
-                            <></>
-                        }
-
+                            {userId === group.organizerId ?
+                                (<div id='group-page-button-container'>
+                                    <NavLink to={`/groups/${groupId}/events/new`}><button className='group-page-button'>Create Event</button></NavLink>
+                                    <NavLink to={`/groups/${groupId}/edit`}><button className='group-page-button'>Update</button></NavLink>
+                                    <OpenModalMenuItem
+                                        className='group-page-button'
+                                        itemText='Delete'
+                                        modalComponent={<DeleteGroupModal groupId={groupId}/>}
+                                        isButton={true}
+                                    />
+                                </div>)
+                                :
+                                (<div className='button-div'>
+                                <button className='group-page-button' id='group-page-join-button'>Join this group</button>
+                            </div>)
+                            }
+                        </div>
                     </div>
+                    <div id='group-page-bottom-half'>
+                        <div className='group-page-group-details-section' id='group-page-group-details'>
+                            <div className='group-page-organizer-info'>
+                                <h2 className='group-page-details-header'>Organizer</h2>
+                                <div id='group-page-organizer-page'>{`${group.Organizer.firstName} ${group.Organizer.lastName}`}</div>
+                            </div>
+                            <div className='group-page-description'>
+                                <h2 className='group-page-details-header'>What we're about</h2>
+                                <p id='group-page-group-about'>{group.about}</p>
+                            </div>
+                        </div>
+                        <div className='group-page-group-details-section' id='group-events'>
+
+                            {!events.length ?
+
+                                <h2 className='group-page-details-header'>No Upcoming Events</h2>
+                                :
+                                <div id='upcoming-and-past-div'>
+
+                                    { upcomingEvents.length ?
+                                        <div>
+                                            <h2 className='group-page-details-header'>Upcoming Events ({upcomingEvents.length}) </h2>
+                                            <ul id='group-page-events-list'>
+                                                {upcomingEvents.map((event) => (
+                                                    <li key={event.id} className='event-list-item'>
+                                                        <NavLink className='group-page-event-link' to={`/events/${event.id}`}>
+                                                            <div id='group-page-event-header'>
+                                                                <img id='group-page-event-image' src={event.EventImages.find(image => image.preview === true).url} className='image'/>
+                                                                <div className='group-page-event-highlights'>
+                                                                    <h3 className='group-page-event-date-time'>{event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</h3>
+                                                                    <h2 className='group-page-event-name'>{event.name}</h2>
+                                                                    <h3 className='group-page-event-location'>{group.city}, {group.state}</h3>
+                                                                </div>
+                                                            </div>
+                                                            <p id='group-page-event-description'>{event.description}</p>
+
+                                                        </NavLink>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+
+
+                                        :
+                                        <></>
+                                    }
+
+                                    { pastEvents.length ?
+                                        <div>
+                                            <h2 className='group-page-details-header'>Past Events ({pastEvents.length}) </h2>
+                                            <ul id='group-page-events-list'>
+                                                {pastEvents.map((event) => (
+                                                    <li key={event.id} id='group-page-event-list-item'>
+                                                        <NavLink className='group-page-event-link' to={`/events/${event.id}`}>
+                                                            <div id='group-page-event-header'>
+                                                                <img id='group-page-event-image' src={event.EventImages.find(image => image.preview === true).url} className='image'/>
+                                                                <div className='group-page-event-highlights'>
+                                                                    <h3 className='group-page-event-date-time'>{event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</h3>
+                                                                    <h2 className='group-page-event-name'>{event.name}</h2>
+                                                                    <h3 className='group-page-event-location'>{group.city}, {group.state}</h3>
+                                                                </div>
+                                                            </div>
+                                                            <p className='group-page-event-description'>{event.description}</p>
+                                                        </NavLink>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        :
+                                        <></>
+                                    }
+
+                                </div>
 
 
 
 
 
-                }
-            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
         </div>
+
     )
 
 

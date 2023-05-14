@@ -19,7 +19,9 @@ function OpenModalMenuItem({
   return (
 
     isButton
-      ? <button onClick={onClick}>{itemText}</button>
+      ? <button
+        className='group-page-button'
+        onClick={onClick}>{itemText}</button>
       : <li onClick={onClick}>{itemText}</li>
 
   );

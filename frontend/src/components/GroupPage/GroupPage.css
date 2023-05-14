@@ -1,0 +1,179 @@
+#main-group-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: lightgray; */
+}
+
+#group-page-body-wrapper {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+#group-page-breadcrumb-div{
+    display: flex;
+    /* justify-items: center; */
+    margin-bottom: 5px;
+}
+
+#group-page-breadcrumb {
+    font-size: 15px;
+    margin-left: 5px;
+    color: #00798a;
+    text-decoration: underline;
+}
+
+#group-page-header {
+    display: flex;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+
+.group-preview-image-group-page {
+    height: 250px;
+    width: 400px;
+}
+
+#group-page-preview-info {
+    margin-left: 20px;
+}
+
+#group-page-group-title {
+   margin-left: 0;
+   margin-top: 2px;
+   margin-bottom: 10px;
+}
+
+#group-page-group-subheader {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+#group-page-events-and-privacy {
+    display: flex;
+    gap: 7px;
+}
+
+.group-subheader-content {
+    font-weight: normal;
+    color: gray;
+    font-size: 1rem;
+}
+
+#group-page-button-container{
+    align-self: baseline;
+    display: inline-block;
+}
+
+.group-page-button{
+    height: 30px;
+    margin-right: 10px;
+    background-color: gray;
+    width: 5.75rem;
+    color: white;
+    filter: drop-shadow(1px 1px lightgrey);
+    cursor: pointer;
+}
+
+#group-page-join-button {
+    margin-top: 7px;
+    width: 6rem;
+}
+
+#group-page-group-details {
+    margin-top: 20px;
+    /* background-color: lightgray; */
+}
+
+#group-page-bottom-half {
+    background-color: rgb(246, 244, 244);
+    padding: 15px;
+    padding-bottom: 0;
+    padding-top: 0;
+    margin-bottom: 50px;
+}
+
+.group-page-details-header {
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.group-page-group-details-section {
+    margin-bottom: 20px;
+}
+
+#group-page-organizer-page {
+    font-size: 1rem;
+    color: gray;
+    margin-bottom: 20px;
+    margin-left: 5px;
+}
+
+#group-page-group-about {
+    margin-left: 5px;
+    margin-bottom: 30px;
+}
+
+.group-page-event-link {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+#group-page-events-list {
+    padding-left: 0;
+    padding-top: 0;
+
+}
+
+#group-page-event-image {
+    width: 150px;
+    height: 100px;
+}
+
+#group-page-event-header {
+    display: flex;
+}
+
+.group-page-event-highlights {
+    height: 100px;
+    margin-left: 5px;
+}
+
+.group-page-event-date-time {
+    font-weight: normal;
+    font-size: 15px;
+    color: #00798a;
+    margin-top: 2px;
+}
+
+.group-page-event-name {
+    font-size: 20px;
+    margin: 0;
+    margin-top: 2px;
+    color: black;
+}
+
+.group-page-event-location {
+    font-size: 15px;
+    color: gray;
+    font-weight: normal;
+    margin-top: 5px;
+}
+
+#group-page-event-description {
+    font-size: 12px;
+    margin-top: 10px;
+    color: black;
+}
+
+#group-page-events-list li {
+    border: none;
+
+}
