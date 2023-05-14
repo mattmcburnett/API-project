@@ -29,11 +29,13 @@ function DeleteEventModal({eventId}) {
     }
 
     return (
-        <div>
-            <h3>Confirm Delete</h3>
-            <p>Are you sure you want to remove this event?</p>
-            <button onClick={handleDelete} type='button'>Yes (Delete Event)</button>
-            <button onClick={backToEvent} type='button'>No (Keep Event)</button>
+        <div id='event-page-delete-event-modal-form'>
+            <h3 id='confirm-delete-event-header'>Confirm Delete</h3>
+            <p id='delete-event-sure'>Are you sure you want to remove this event?</p>
+            <div className='event-page-delete-event-modal-buttons'>
+                <button id='event-page-delete-event-button' onClick={handleDelete} type='button'>Yes (Delete Event)</button>
+                <button id='event-page-keep-event-button' onClick={backToEvent} type='button'>No (Keep Event)</button>
+            </div>
         </div>
     )
 

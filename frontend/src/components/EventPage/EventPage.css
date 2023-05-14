@@ -1,0 +1,156 @@
+#event-page-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#event-page-body-wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+}
+
+#event-page-event-header-wrapper{
+    /* background-color: white; */
+    margin-bottom: 30px;
+}
+
+.event-page-event-details{
+    background-color: rgb(246, 244, 244);
+    padding: 15px;
+    padding-bottom: 0;
+    /* padding-top: ; */
+    margin-bottom: 50px;
+    padding-bottom: 50px;
+}
+
+#event-page-event-details-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+#event-page-breadcrumb-div{
+    display: flex;
+    gap: 5px;
+}
+
+.event-page-breadcrumb-link{
+    font-size: 15px;
+    color: #00798a;
+    text-decoration: underline;
+}
+
+#event-page-event-name {
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+
+#event-name-event-host {
+    font-weight: normal;
+    color: gray;
+}
+
+#event-page-event-image {
+    width: 400px;
+    height: 250px;
+}
+
+.event-page-event-detail-blocks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.event-page-event-group-info {
+    background-color: white;
+    width: 290px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#event-page-group-image {
+    width: 90px;
+    height: 60px;
+}
+
+#event-page-event-detail-blocks-right {
+    margin-left: 10px;
+}
+
+#event-page-group-details-div {
+    margin-left: 15px;
+}
+
+.event-page-event-group-name {
+    color: black;
+    font-size: 15px;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+.event-page-group-type{
+    color: gray;
+    font-size: 13px;
+}
+
+.event-page-event-highlights {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.event-page-event-time {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#event-page-start-end-times {
+    display: flex;
+    gap: 15px;
+}
+
+.event-page-start-end-label {
+    color: gray;
+}
+
+.fa-clock {
+    color: gray;
+}
+
+.event-page-start-end{
+    color: #00798a;
+}
+
+.event-page-event-price {
+    display: flex;
+    gap: 15px;
+    color: gray;
+}
+
+#event-page-event-location-div-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.event-page-event-location-div {
+    display: flex;
+    gap: 15px;
+    color: gray;
+}
+
+#event-page-event-description-header {
+    margin-left: 0;
+}
+
+#event-page-event-description {
+    margin-left: 5px;
+}

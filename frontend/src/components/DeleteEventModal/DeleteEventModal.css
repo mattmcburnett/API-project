@@ -1,1 +1,36 @@
+#event-page-delete-event-modal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+}
 
+#confirm-delete-event-header {
+    font-weight: normal;
+    margin-top: 15px;
+    margin-bottom: 20px
+}
+
+#delete-event-sure{
+    margin-bottom: 20px;
+}
+
+.event-page-delete-event-modal-buttons{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 95%;
+}
+
+#event-page-delete-event-button {
+    height: 35px;
+    background-color: rgb(246, 88, 88);
+    color: white;
+}
+
+#event-page-keep-event-button{
+    height: 35px;
+    background-color: gray;
+    color: white;
+}
