@@ -98,7 +98,7 @@ router.get( '/',
             delete event.dataValues.capacity;
             delete event.dataValues.updatedAt;
             delete event.dataValues.createdAt;
-            delete event.dataValues.description;
+            // delete event.dataValues.description;
             delete event.dataValues.EventImages;
             delete event.dataValues.Attendances;
         }

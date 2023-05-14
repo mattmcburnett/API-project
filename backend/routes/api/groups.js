@@ -98,7 +98,7 @@ router.get(
             include: [
                 {model: GroupImage, attributes: ['id', 'url', 'preview']},
                 {model: Venue, attributes: {exclude: ['createdAt', 'updatedAt']}},
-                {model: Event}
+                {model: Event, include:[{model: EventImage}]}
             ]
         })
         //error handling

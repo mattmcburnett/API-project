@@ -13,4 +13,77 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 50px;
+}
+
+#works {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#works-header {
+    text-align: center;
+}
+
+#works-paragraph {
+    text-align: center;
+}
+
+#icon-wrapper {
+    display: flex;
+}
+
+.icon-element {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-image {
+    width: 100px;
+    height: 100px;
+}
+
+.icon-link {
+    color: #00798a;
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+}
+
+.icon-link :hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#join-greetup-button {
+    background-color: #00798a;
+    color: white;
+    height: 2.25rem;
+    width: 7.25rem;
+}
+
+#join-greetup-button :hover {
+    cursor: pointer;
+}
+
+.icon-link-text :hover {
+    text-decoration: underline;
+    font-style: italic;
+}
+
+#join-greetup-button li {
+    list-style: none;
+
+}
+
+#disabled-link {
+    color: gray;
+}
+#disabled-link :hover {
+    text-decoration: none;
+    cursor: default;
 }

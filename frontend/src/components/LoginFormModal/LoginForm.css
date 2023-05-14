@@ -7,9 +7,8 @@
     /* background-color: red */
 };
 
-#login-button {
-    cursor: pointer;
-    background-color: red;
+#login-button{
+    background-color: aqua;
 }
 
 #demo-user {

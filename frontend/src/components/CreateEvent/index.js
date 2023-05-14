@@ -20,7 +20,7 @@ function CreateEvent() {
     const {groupId} = useParams();
     const groupIdNnumber = Number(groupId)
     const user = useSelector(state => state.session);
-    // const group = useSelector(state => state.groups[groupId]) //undefined
+    const group = useSelector(state => state.groups[groupId])
     // console.log(group)
     useEffect( () => {
 
@@ -41,13 +41,13 @@ function CreateEvent() {
         let newErrors = {}
         // console.log('errors', errors)
         newErrors = {}
-        console.log('price => ', price)
+        // console.log('price => ', price)
 
         // console.log('newErrors', newErrors)
-        console.log('startDate => ', startDate)
+        // console.log('startDate => ', startDate)
 
         if(name.length < 1) newErrors.name = 'Name is required';
-        console.log('errors 2 =>', errors)
+        // console.log('errors 2 =>', errors)
         if(type !== 'In person' && type !== 'Online') newErrors.type = 'Event Type is required';
         if(!startDate) newErrors.startDate = 'Event start is required';
         if(!endDate) newErrors.endDate = 'Event end is required';
@@ -56,7 +56,7 @@ function CreateEvent() {
         };
         if(description.length < 30) newErrors.description = 'Description must be at least 30 characters long';
         if(price < 1) newErrors.price = 'Price is required';
-        console.log('newErr', newErrors)
+        // console.log('newErr', newErrors)
         // console.log(errors)
         setErrors(newErrors);
         // console.log(errors)
@@ -91,7 +91,7 @@ function CreateEvent() {
 
     return (
         <div>
-            <h2>Create an event for -GroupName-</h2>
+            <h2>Create an event for {group.name}</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <p>What is the name of your event?</p>

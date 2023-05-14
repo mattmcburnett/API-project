@@ -41,8 +41,8 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+      <button id="profile-button" onClick={openMenu}>
+        <i id='profile-circle' className="fas fa-user-circle fa-2x" />
 
       </button>
       {showMenu === false ?
@@ -52,13 +52,13 @@ function ProfileButton({ user }) {
         }
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
+          <div id="profile-dropdown">
             <li>Hello, {user.firstName} {user.lastName}</li>
             <li>{user.email}</li>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>
-          </>
+          </div>
         ) : (
           <>
             <OpenModalMenuItem

@@ -10,7 +10,7 @@ ul {
 }
 
 a {
-    color: rgb(246, 88, 88);
+    /* color: rgb(246, 88, 88); */
     text-decoration: none;
     font-size: 30px;
 }
@@ -21,10 +21,15 @@ a {
     justify-content: space-between;
     margin-bottom: 50px;
     border-bottom: 2px solid lightgrey;
+    height: 80px;
 }
 
 #greetup-logo {
-    padding: 20px;
+    color: rgb(246, 88, 88);
+    /* padding: 20px; */
+    padding: 1px;
+    margin-left: 15px;
+    align-self: center;
 }
 
 .nav-links {
@@ -33,4 +38,41 @@ a {
 
 .nav-links :hover {
     cursor: pointer;
+}
+
+#start-group{
+    color: #00798a;
+    font-size: 1rem;
+    margin-right: 2rem;
+}
+
+#profile-li{
+    list-style: none;
+    align-self: center;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+#profile-button {
+    background-color: white;
+    border: none;
+
+}
+
+.fa-user-circle {
+    margin-right: 5px;
+    /* width: 100px; */
+}
+
+#profile-circle {
+    color: rgb(246, 88, 88);
+}
+
+#profile-dropdown {
+    display: inline-block;
+    /* flex-direction: column; */
+    position: relative;
+    /* bottom: 50%; */
+    /* right: 100%; */
 }

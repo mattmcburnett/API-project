@@ -20,6 +20,8 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+  //set up 404 page
+
   return (
     <>
       <Navigation isLoaded={isLoaded} />

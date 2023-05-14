@@ -24,6 +24,8 @@ function EditGroup() {
     // let group;
 
     let group = useSelector( state => state.groups[groupId]);
+
+
     useEffect(() => {
 
         dispatch(groupDetails(groupId))

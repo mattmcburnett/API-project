@@ -8,6 +8,7 @@ import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import DeleteEventModal from '../DeleteEventModal';
 
 
+
 function EventPage() {
     const { eventId } = useParams();
     const event = useSelector( state => state.events.singleEvent);
@@ -62,6 +63,8 @@ function EventPage() {
     const group = event.Group;
     console.log('group => ', group)
 
+
+
     return (
         <div id='wrapper'>
             <div id='event-header'>
@@ -90,12 +93,12 @@ function EventPage() {
                     </NavLink>
                     <div className='event-highlights'>
                         <div className='event-time'>
-                            <p>time icon</p>
-                            <p>START {event.startDate}-dateTODO · {event.startDate}-timeTODO</p>
-                            <p>END {event.endDate}-dateTODO · {event.endDate}-timeTODO</p>
+                            <i class="fa-regular fa-clock"></i>
+                            <p>START {event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</p>
+                            <p>END {event.endDate.split('T')[0]} · {event.endDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.endDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</p>
                         </div>
                         <div className='event-price'>
-                            <p>price icon</p>
+                            <i class="fa-solid fa-dollar-sign"></i>
                             {event.price === 0 ?
                                 <p>FREE</p>
                                 :
@@ -103,7 +106,7 @@ function EventPage() {
                             }
                         </div>
                         <div className='event-location'>
-                            <p>location icon</p>
+                            <i className="fa-solid fa-map-pin"></i>
                             <p>{`${group.city}, ${group.state}`}</p>
                             {userId === group.organizerId ?
                                 <OpenModalMenuItem

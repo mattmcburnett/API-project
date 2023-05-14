@@ -21,27 +21,34 @@ function EventsList({isLoaded}) {
 
     return (
         <div id='main'>
-            <div id='header-links'>
-                <NavLink to={'/events'}><h2 className='all-links'>Events</h2></NavLink>
-                <NavLink to={'/groups'}><h2 className='all-links'>Groups</h2></NavLink>
+            <div id='list-wrapper'>
+                <div id='header-wrapper'>
+                    <div id='header-links'>
+                        <NavLink to={'/events'}><h2 className='all-links' id='events-event-link'>Events</h2></NavLink>
+                        <NavLink to={'/groups'}><h2 className='all-links' id='events-groups-link'>Groups</h2></NavLink>
+                    </div>
+                    <h3 id='events-in-greetup'>Events in GreetUp</h3>
+                </div>
+                <ul id='events-list'>
+                    {events.map((event) => (
+                        <li key={event.id} className='event-list-item'>
+                            <NavLink className='event-link' to={`/events/${event.id}`}>
+                                <div id='event-highlights'>
+                                    <img src={event.previewImage} className='image'/>
+                                    <div>
+                                        <div className='info'>
+                                            <h3 id='start-date-and-time'>{event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</h3>
+                                            <h2 id='event-name'>{event.name}</h2>
+                                            <h3 id='event-location'>{event.Group.city}, {event.Group.state}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p id='event-description'>{event.description}</p>
+                            </NavLink>
+                        </li>
+                    ))}
+                </ul>
             </div>
-            <h3>Events in GreetUp</h3>
-            <ul id='events-list'>
-                {events.map((event) => (
-                    <li key={event.id} className='event-list-item'>
-                        <NavLink className='event-link' to={`/events/${event.id}`}>
-                            <img src={event.previewImage} className='image'/>
-                            <div className='info'>
-                                <h3>{event.startDate}</h3>
-                                <h2>{event.name}</h2>
-                                <h3>Location - TODO</h3>
-                                {/* <h3>{group.city}, {group.state}</h3> */}
-                                <p>{event.description}</p>
-                            </div>
-                        </NavLink>
-                    </li>
-                ))}
-            </ul>
         </div>
     )
 }

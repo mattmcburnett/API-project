@@ -22,7 +22,7 @@ function Navigation({ isLoaded }){
     <div id='nav-bar-wrapper'>
      <div id='nav-bar'>
         <div id='greetup-logo'>
-          <NavLink exact to="/"><p>GreetUp</p></NavLink>
+          <NavLink id='greetup-logo' exact to="/"><p>GreetUp</p></NavLink>
         </div>
         {sessionUser === null ?
           <ul>
@@ -42,7 +42,8 @@ function Navigation({ isLoaded }){
             </li>
           </ul>
           :
-          <li>
+          <li id='profile-li'>
+            <NavLink id='start-group' to={'groups/new'}>Start a new group</NavLink>
             <ProfileButton user={sessionUser} />
           </li>
         }

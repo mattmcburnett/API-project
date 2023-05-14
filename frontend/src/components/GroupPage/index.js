@@ -47,6 +47,23 @@ function GroupPage() {
 
     const events = group.Events;
     console.log('events => ', events)
+    const currentDate = Date.now();
+    console.log('currentDate =>', currentDate);
+    const upcomingEvents = [];
+    const pastEvents = [];
+
+    events.forEach(event => {
+        // console.log(Date.parse(event.startDate))
+        if (Date.parse(event.startDate) >= currentDate) {
+            upcomingEvents.push(event)
+        } else {
+            pastEvents.push(event)
+        }
+    })
+    console.log('upcoming events =====> ', upcomingEvents)
+    console.log('past events =====> ', pastEvents)
+
+
 
     return (
         <div id='wrapper'>
@@ -55,12 +72,12 @@ function GroupPage() {
                     <p>{'<'}</p>
                     <NavLink id='breadcrumb' to={'/groups'}>Groups</NavLink>
                 </div>
-                <img src={previewImageUrl}/>
+                <img className='group-preview-image' src={previewImageUrl}/>
                 <div id='preview-info'>
                     <div id='group-title'><h2>{group.name}</h2></div>
                     <div id='group-subheader'>
                         <h3>{`${group.city}, ${group.state}`}</h3>
-                        <h3>{events.length}</h3>
+                        <h3>{events.length} event(s)</h3>
                         <h3>·</h3>
                         {group.privacy === true ? <h3>Private</h3> : <h3>Public</h3> }
                         <h3>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
@@ -94,10 +111,68 @@ function GroupPage() {
                 </div>
             </div>
             <div className='group-events'>
-                <h2>Upcoming Events (# - todo)</h2>
 
-                <h2>Past Events (# - todo)</h2>
+                {!events.length ?
 
+                    <h2>No Upcoming Events</h2>
+                    :
+                    <div id='upcoming-and-past-div'>
+
+                        { upcomingEvents.length ?
+                            <div>
+                                <h2>Upcoming Events ({upcomingEvents.length}) </h2>
+                                <ul id='events-list'>
+                                    {upcomingEvents.map((event) => (
+                                        <li key={event.id} className='event-list-item'>
+                                            <NavLink className='event-link' to={`/events/${event.id}`}>
+                                                <img src={'event.EventImages.find(image => image.preview === true).url'} className='image'/>
+                                                <div className='info'>
+                                                    <h3>{event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</h3>
+                                                    <h2>{event.name}</h2>
+                                                    <h3>{group.city}, {group.state}</h3>
+                                                    <p>{event.description}</p>
+                                                </div>
+                                            </NavLink>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+
+                            :
+                            <></>
+                        }
+
+                        { pastEvents.length ?
+                            <div>
+                                <h2>Past Events ({pastEvents.length}) </h2>
+                                <ul id='events-list'>
+                                    {pastEvents.map((event) => (
+                                        <li key={event.id} className='event-list-item'>
+                                            <NavLink className='event-link' to={`/events/${event.id}`}>
+                                                <img src={'event.EventImages.find(image => image.preview === true).url'} className='image'/>
+                                                <div className='info'>
+                                                    <h3>{event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</h3>
+                                                    <h2>{event.name}</h2>
+                                                    <h3>{group.city}, {group.state}</h3>
+                                                    <p>{event.description}</p>
+                                                </div>
+                                            </NavLink>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            :
+                            <></>
+                        }
+
+                    </div>
+
+
+
+
+
+                }
             </div>
         </div>
     )
