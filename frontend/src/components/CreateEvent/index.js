@@ -15,7 +15,7 @@ function CreateEvent() {
     const [imageUrl, setImageUrl] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [refreshState, setRefreshState] = useState(localStorage.getItem('state'))
+    // const [refreshState, setRefreshState] = useState(localStorage.getItem('state'))
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -25,13 +25,14 @@ function CreateEvent() {
     let group = useSelector(state => state.groups[groupId]);
     // console.log('group1 ======>', group)
     if(!group) {
-        group = localStorage.getItem('group')
+        group = JSON.parse(localStorage.getItem('group'))
     }
     // console.log('refresh ??????????', refreshState.groups)
 
-    const state = useSelector(state => state);
+    // const state = useSelector(state => state);
     // console.log('state ======>', state)
-    console.log('group ------??>', group)
+    // console.log('group.name   ', group.name)
+    // console.log('group ------??>', group)
     useEffect( () => {
 
         setName(name);
@@ -106,11 +107,12 @@ function CreateEvent() {
     return (
         <div id='create-event-main'>
             <div id='create-event-body'>
-                <h2>Create an event for {group.name}</h2>
+                <h2 id='create-event-header'>Create an event for {group.name}</h2>
                 <form onSubmit={handleSubmit}>
-                    <div>
+                    <div className='create-event-form-section'>
                         <p>What is the name of your event?</p>
                         <input
+                            id='create-event-event-name'
                             type='text'
                             placeholder='Event Name'
                             value={name}
@@ -118,40 +120,45 @@ function CreateEvent() {
                         />
                         {errors.name && (<p className='errors'>{errors.name}</p>)}
                     </div>
-                        <div>
-                            <p>Is this an in person or online group?</p>
-                            <select
-                                name='type'
-                                value={type}
-                                onChange={(e) => setType(e.target.value)}
-                            >
-                                <option disabled>
-                                (select one)
-                                </option>
-                                <option>In person</option>
-                                <option>Online</option>
-                            </select>
-                            {errors.type && (<p className='errors'>{errors.type}</p>)}
-                        </div>
-                        <div>
-                            <p>What is the price of your event?</p>
+                        <div className='create-event-form-section'>
                             <div>
-                                <i className="fa-solid fa-dollar-sign"></i>
-                                <input
-                                type='number'
-                                placeholder='0'
-                                    value={price}
-                                    onChange={(e) => setPrice(e.target.value)}
+                                <p id='create-event-type-label'>Is this an in person or online group?</p>
+                                <select
+                                    id='create-event-type'
+                                    name='type'
+                                    value={type}
+                                    onChange={(e) => setType(e.target.value)}
                                 >
-
-                                </input>
+                                    <option disabled>
+                                    (select one)
+                                    </option>
+                                    <option>In person</option>
+                                    <option>Online</option>
+                                </select>
+                                {errors.type && (<p className='errors'>{errors.type}</p>)}
                             </div>
-                            {errors.price && (<p className='errors'>{errors.price}</p>)}
+                            <div>
+                                <p id='create-event-price-label'>What is the price of your event?</p>
+                                <div>
+                                    <i className="fa-solid fa-dollar-sign"></i>
+                                    <input
+                                        id='create-event-price'
+                                        type='number'
+                                        placeholder='0'
+                                        value={price}
+                                        onChange={(e) => setPrice(e.target.value)}
+                                    >
+
+                                    </input>
+                                </div>
+                                {errors.price && (<p className='errors'>{errors.price}</p>)}
+                            </div>
                         </div>
-                    <div className='start-and-end'>
+                    <div className='create-event-form-section' >
                         <div>
                             <p>When does your event start?</p>
                             <input
+                                className='create-event-start-end'
                                 type="datetime-local"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
@@ -161,6 +168,7 @@ function CreateEvent() {
                         <div>
                             <p>When does your event end?</p>
                             <input
+                                className='create-event-start-end'
                                 type="datetime-local"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
@@ -170,9 +178,10 @@ function CreateEvent() {
                     </div>
 
 
-                    <div>
+                    <div className='create-event-form-section'>
                         <p>Please add an image url for your event below:</p>
                         <input
+                            id='create-event-image-url'
                             type='text'
                             placeholder='Image Url'
                             onChange={(e) => setImageUrl(e.target.value)}
@@ -181,8 +190,9 @@ function CreateEvent() {
                         {errors.imageUrl && (<p className='errors'>{errors.imageUrl}</p>)}
                     </div>
                     <div>
-                        <p>Please describe your event:</p>
+                        <p id='create-event-description-label'>Please describe your event:</p>
                         <textarea
+                            id='create-event-textarea'
                             type='text-area'
                             placeholder='Please include at least 30 characters'
                             value={description}
@@ -192,7 +202,7 @@ function CreateEvent() {
                     </div>
 
                     <div>
-                        <button onSubmit={handleSubmit} type='submit'>Create Event</button>
+                        <button id='create-event-create-button' onSubmit={handleSubmit} type='submit'>Create Event</button>
                     </div>
                 </form>
             </div>

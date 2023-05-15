@@ -1,3 +1,69 @@
 #create-event-main {
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#create-event-body {
+    width: 75%;
+}
+
+#create-event-header {
+    margin-left: 0;
+}
+
+.create-event-form-section {
+    border-bottom: 2px solid gray;
+    margin-top: 10px;
+}
+
+#create-event-event-name {
+    width: 60%;
+}
+
+#create-event-price {
+    width: 100px;
+    text-align: right;
+}
+
+.create-event-start-end {
+    width: 175px;
+}
+
+#create-event-image-url {
+    width: 60%;
+}
+
+#create-event-textarea {
+    background-color: #dcecf1;
+    border: 2px solid #000;
+    height: 9rem;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+#create-event-create-button{
+    height: 40px;
+    width: 120px;
+    color: white;
+    background-color: rgb(246, 88, 88);
+    margin-bottom: 50px;
+}
+
+#create-event-description-label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+#create-event-price-label {
+    margin-top: 10px;
+}
+
+#create-event-type-label {
+    margin-bottom: 5px;
+}
+
+#create-event-type {
+    background-color: #dcecf1;
+    border: 2px solid #000;
 }
