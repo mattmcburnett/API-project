@@ -128,11 +128,15 @@ function EventPage() {
                                         </div>
                                         <div>
                                             {userId === group.organizerId ?
-                                                <OpenModalMenuItem
-                                                itemText='Delete'
-                                                modalComponent={<DeleteEventModal eventId={eventId}/>}
-                                                isButton={true}
+                                                <div>
+                                                    <button id='event-page-update-button'>Update</button>
+                                                    <OpenModalMenuItem
+                                                    id='event-page-delete-button'
+                                                    itemText='Delete'
+                                                    modalComponent={<DeleteEventModal eventId={eventId}/>}
+                                                    isButton={true}
                                                 />
+                                                </div>
                                                 :
                                                 <></>
                                             }

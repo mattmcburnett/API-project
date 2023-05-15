@@ -89,7 +89,7 @@ function CreateGroup() {
     return (
         <div id='new-group-form-wrapper'>
             <div id='new-group-page-body-wrapper'>
-                <h3 id='organizer-header'>BECOME AN ORGANIZER</h3>
+                <h3 id='organizer-header'>START A NEW GROUP</h3>
                 <h2 id='walk-through-header'>We'll walk you through a few steps to build your local community</h2>
                 <form onSubmit={handleSubmit}>
                     <div className='group-form-section'>

@@ -19,7 +19,6 @@ export function ModalProvider({ children }) {
       onModalClose();
     }
   };
-
   const contextValue = {
     modalRef, // reference to modal div
     modalContent, // React component to render inside modal
@@ -46,7 +45,7 @@ export function Modal() {
 
   // Render the following component to the div referenced by the modalRef
   return ReactDOM.createPortal(
-    <div id="modal">
+    <div style={{display: "flex"}} id="modal">
       <div id="modal-background" onClick={closeModal} />
       <div id="modal-content">{modalContent}</div>
     </div>,

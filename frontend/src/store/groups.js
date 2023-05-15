@@ -118,6 +118,7 @@ export const deleteGroup = (groupId) => async (dispatch) => {
     });
     if (response.ok) {
         dispatch(removeGroup(groupId))
+        return response.json();
     } else {
         const errors = await response.json();
         return errors;

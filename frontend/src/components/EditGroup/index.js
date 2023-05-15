@@ -24,13 +24,17 @@ function EditGroup() {
     // let group;
 
     let group = useSelector( state => state.groups[groupId]);
+    const userId = useSelector( state => state.session.user.id)
+    // console.log(userId)
+    console.log(group)
+
 
 
     useEffect(() => {
 
         dispatch(groupDetails(groupId))
         .then(data => {
-            console.log(data)
+            // console.log(data)
             setName(data.name)
             setLocation(`${data.city}, ${data.state}`)
             setAbout(data.about)
@@ -39,14 +43,20 @@ function EditGroup() {
          } )
     }, [ dispatch]);
 
+    if (!group) return null
+
+    if (group.organizerId !== userId || !group) {
+        history.push('/')
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         // console.log('group -> ', group)
-        console.log('privacy -> ', privacy)
+        // console.log('privacy -> ', privacy)
 
         setErrors({})
-        console.log('errors 1 => ', errors)
+        // console.log('errors 1 => ', errors)
         const city = location.split(',')[0];
         const state = location.split(',')[1];
 
@@ -74,12 +84,12 @@ function EditGroup() {
         group.type = type;
         group.privacy = privacy
 
-        console.log('Object.values => ', Object.values(errors).length)
-        console.log('errors 3 =>', errors)
-        console.log('name => ', name)
+        // console.log('Object.values => ', Object.values(errors).length)
+        // console.log('errors 3 =>', errors)
+        // console.log('name => ', name)
         if(!Object.values(newErrors).length) {
             const updatedGroup = await dispatch(updateGroup(group));
-            console.log('Group => ', updatedGroup)
+            // console.log('Group => ', updatedGroup)
             history.push(`/groups/${group.id}`);
         }
     };

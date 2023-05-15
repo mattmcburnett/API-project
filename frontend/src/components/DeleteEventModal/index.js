@@ -8,7 +8,7 @@ import { deleteEvent } from '../../store/events';
 function DeleteEventModal({eventId}) {
     const history = useHistory()
     const dispatch = useDispatch();
-    const params = useParams();
+    // const params = useParams();
     const event = useSelector(state => state.events.singleEvent);
     // console.log('event=====> ', event)
 
@@ -17,9 +17,11 @@ function DeleteEventModal({eventId}) {
     const handleDelete = (e) => {
         e.preventDefault();
 
-        history.push(`/groups/${event.Group.id}`)
+        // history.push(`/groups/${event.Group.id}`)
+
         return (dispatch(deleteEvent(event.id))
             .then(closeModal)
+            .then(history.push(`/groups/${event.Group.id}`))
         )
     }
 

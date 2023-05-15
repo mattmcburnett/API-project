@@ -84,6 +84,7 @@
 #group-page-join-button {
     margin-top: 7px;
     width: 6rem;
+    background-color: rgb(246, 88, 88);
 }
 
 #group-page-group-details {
@@ -190,4 +191,8 @@
 #group-page-no-preview {
     font-size: small;
     color: gray;
+}
+
+#group-page-create-event-button {
+    width: 90px;
 }

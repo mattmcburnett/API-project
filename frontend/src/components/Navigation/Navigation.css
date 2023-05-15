@@ -57,6 +57,7 @@ a {
 #profile-button {
     background-color: white;
     border: none;
+    position: relative;
 
 }
 
@@ -70,9 +71,29 @@ a {
 }
 
 #profile-dropdown {
-    display: inline-block;
-    /* flex-direction: column; */
+    display: flex;
+    flex-direction: column;
     position: relative;
     /* bottom: 50%; */
     /* right: 100%; */
 }
+
+.dropdown-links{
+    font-size: smaller;
+    color: #00798a;
+}
+
+#logout-button{
+    background-color: white;
+    border: none;
+    color: #00798a;
+}
+
+#logout-button :hover {
+    cursor: pointer;
+}
+
+/* #dropdown menu{
+    display: flex;
+    flex-direction: column;
+} */

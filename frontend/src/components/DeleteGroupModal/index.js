@@ -13,7 +13,7 @@ function DeleteGroupModal({groupId}) {
     // console.log('params => ', params)
     // console.log('groupId =>', groupId)
     const groups = useSelector( state => state.groups); //get groups on its own
-    console.log('Groups => ', groups)
+    // console.log('Groups => ', groups)
     const group = groups[groupId] //key into group
     // console.log(group)
 
@@ -22,9 +22,10 @@ function DeleteGroupModal({groupId}) {
     const handleDelete = (e) => {
         e.preventDefault();
 
-        history.push('/groups')
+        // history.push('/groups')
         return (dispatch(deleteGroup(group.id))
             .then(closeModal)
+            .then(history.push('/groups'))
         )
     };
 
