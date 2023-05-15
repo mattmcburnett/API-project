@@ -186,3 +186,8 @@
     display: flex;
     flex-direction: column;
 }
+
+#group-page-no-preview {
+    font-size: small;
+    color: gray;
+}

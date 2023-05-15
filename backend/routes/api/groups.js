@@ -140,7 +140,7 @@ const validateNewGroup = [
     check('about')
       .exists({ checkFalsy: true })
       .isString()
-      .isLength({ min: 50 })
+      .isLength({ min: 30 })
       .withMessage('About must be 50 characters or more'),
     check('type')
       .isIn(['Online', 'In person', 'In Person'])

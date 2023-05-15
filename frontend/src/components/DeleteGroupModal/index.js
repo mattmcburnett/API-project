@@ -1,9 +1,7 @@
 import './DeleteGroupModal.css';
-import React, { useState, useEffect } from "react";
-import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import {useParams, useHistory} from "react-router-dom";
+import {useHistory, Redirect} from "react-router-dom";
 import { deleteGroup } from '../../store/groups';
 
 

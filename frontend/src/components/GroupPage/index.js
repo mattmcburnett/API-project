@@ -136,7 +136,11 @@ function GroupPage() {
                                                     <li key={event.id} className='event-list-item'>
                                                         <NavLink className='group-page-event-link' to={`/events/${event.id}`}>
                                                             <div id='group-page-event-header'>
-                                                                <img id='group-page-event-image' src={event.EventImages.find(image => image.preview === true).url} className='image'/>
+                                                               {event.EventImages.find(image => image.preview === true) !== undefined ?
+                                                                    <img id='group-page-event-image' src={event.EventImages.find(image => image.preview === true).url} className='image'/>
+                                                                    :
+                                                                    <p id='group-page-no-preview'>No preview<br/> image</p>
+                                                                }
                                                                 <div className='group-page-event-highlights'>
                                                                     <h3 className='group-page-event-date-time'>{event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</h3>
                                                                     <h2 className='group-page-event-name'>{event.name}</h2>
@@ -164,14 +168,18 @@ function GroupPage() {
                                                     <li key={event.id} id='group-page-event-list-item'>
                                                         <NavLink className='group-page-event-link' to={`/events/${event.id}`}>
                                                             <div id='group-page-event-header'>
+                                                            {event.EventImages.find(image => image.preview === true) !== undefined ?
                                                                 <img id='group-page-event-image' src={event.EventImages.find(image => image.preview === true).url} className='image'/>
+                                                                :
+                                                                <p id='group-page-no-preview'>No preview <br/>image</p>
+                                                            }
                                                                 <div className='group-page-event-highlights'>
                                                                     <h3 className='group-page-event-date-time'>{event.startDate.split('T')[0]} · {event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[0]}:{event.startDate.split('T')[1].split('Z')[0].split('.')[0].split(':')[1]}</h3>
                                                                     <h2 className='group-page-event-name'>{event.name}</h2>
                                                                     <h3 className='group-page-event-location'>{group.city}, {group.state}</h3>
                                                                 </div>
                                                             </div>
-                                                            <p className='group-page-event-description'>{event.description}</p>
+                                                            <p id='group-page-event-description'>{event.description}</p>
                                                         </NavLink>
                                                     </li>
                                                 ))}

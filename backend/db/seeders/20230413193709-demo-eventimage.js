@@ -18,7 +18,7 @@ module.exports = {
       {
         eventId: 2,
         url: 'https://images.unsplash.com/photo-1524748969064-cf3dabd7b84d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NDYyOHwwfDF8cmFuZG9tfHx8fHx8fHx8MTY4Mzk2MDQ2MXw&ixlib=rb-4.0.3&q=80&w=1080',
-        preview: false
+        preview: true
       },
       {
         eventId: 3,
@@ -33,7 +33,7 @@ module.exports = {
       {
         eventId: 5,
         url: 'https://images.unsplash.com/photo-1651677584025-6c844f0bd65c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NDYyOHwwfDF8cmFuZG9tfHx8fHx8fHx8MTY4Mzk2MDU4Mnw&ixlib=rb-4.0.3&q=80&w=1080',
-        preview: false
+        preview: true
       },
 
     ]);

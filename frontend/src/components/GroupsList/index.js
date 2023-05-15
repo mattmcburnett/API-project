@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllGroups } from "../../store/groups";
@@ -9,14 +9,13 @@ function GroupsList({ isLoaded }) {
   const dispatch = useDispatch();
   const groupsState = useSelector((state) => state.groups);
   const groups = Object.values(groupsState);
-
   console.log("GroupsList:", groups);
 
   //executing all the code in getAllGroups until dispatch (line 21)
   //then executes that dispatch
   useEffect(() => {
     dispatch(getAllGroups());
-  }, [dispatch]);
+  }, [dispatch]); //adding groupsState worked, but bad design
 
   if (Object.values(groups).length === 0) return null;
 
@@ -44,11 +43,19 @@ function GroupsList({ isLoaded }) {
                 <NavLink className="single-group-link" to={`/groups/${group.id}`}>
                 <img src={group.previewImage} className="image" />
                 <div className="info">
-                    <h3 id="group-name">{group.name}</h3>
+                    { group.name.length < 30 ?
+                        <h3 id="group-name">{group.name}</h3>
+                        :
+                        <h3 id="group-name">{group.name.slice(0, 30)}...</h3>
+                    }
                     <p id="group-location">
                     {group.city}, {group.state}
                     </p>
-                    <p id="group-about">{group.about}</p>
+                    { group.about.length < 50 ?
+                        <p id="group-about">{group.about}</p>
+                        :
+                        <p id="group-about">{group.about.slice(0,235)}...</p>
+                    }
                     <div id="events-type">
                     <p>{group.Events.length} event(s)</p>
                     <p>·</p>
