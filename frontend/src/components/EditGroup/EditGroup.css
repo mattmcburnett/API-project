@@ -1,0 +1,59 @@
+#update-group-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#update-grou-body-wrapper {
+    width: 75%;
+}
+
+#update-group-info-banner {
+    font-weight: normal;
+    color: #00798a;
+}
+
+#update-group-walk-through{
+    margin-left: 0;
+    margin-bottom: 0;
+    border-bottom: 2px solid gray;
+    padding-bottom: 15px;
+    margin-top: 10px;
+}
+
+.update-group-form-section {
+    border-bottom: 2px solid gray;
+    padding-bottom: 20px;
+}
+
+.update-group-form-section-header {
+    margin-left: 0;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.update-group-form-inputs {
+    margin-top: 20px;
+    width: 18rem;
+    margin-bottom: 0px;
+}
+
+#update-group-about-input {
+    height: 10rem;
+    background-color: rgb(220, 236, 241);
+    border: 2px solid black;
+}
+
+.update-group-form-select-div {
+    margin-bottom: 10px;
+}
+
+#update-group-submit-button {
+    height: 2.5rem;
+    width: 7rem;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    background-color: rgb(245, 57, 57);
+    color: white;
+    filter: drop-shadow(1px 1px black);
+}

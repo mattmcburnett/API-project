@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { updateGroup, groupDetails } from '../../store/groups';
 import { useHistory, useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-
+import './EditGroup.css';
 
 
 function EditGroup() {
@@ -70,7 +70,7 @@ function EditGroup() {
         group.name = name;
         group.about = about;
         group.city = city;
-        group.state = state;
+        group.state = state.trim();
         group.type = type;
         group.privacy = privacy
 
@@ -87,81 +87,91 @@ function EditGroup() {
 
 
     return (
-        <div>
-            <p>UPDATE YOUR GROUP'S INFORMATION</p>
-            <h2>We'll walk you through a few steps to update your group's information</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <h2>First, set your group's location.</h2>
-                    <p>Meetup groups can meet locally, in person, and online. We'll connect you with people
-                        <br/>in your area, and more you can join online</p>
-                    <input
-                    type='text'
-                    placeholder='City, STATE'
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    />
-                    {errors.location && (<p className='errors'>{errors.location}</p>)}
+        <div id='update-group-main'>
+            <div id='update-grou-body-wrapper'>
+                <h3 id='update-group-info-banner'>UPDATE YOUR GROUP'S INFORMATION</h3>
+                <h2 id='update-group-walk-through'>We'll walk you through updating your group's information</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className='update-group-form-section'>
+                        <h2 className='update-group-form-section-header'>First, set your group's location.</h2>
+                        <p>Meetup groups can meet locally, in person, and online. We'll connect you with people
+                            <br/>in your area, and more you can join online</p>
+                        <input
+                            className='update-group-form-inputs'
+                            type='text'
+                            placeholder='City, STATE'
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                        />
+                        {errors.location && (<p className='errors'>{errors.location}</p>)}
 
-                </div>
-                <div>
-                    <h2>What will your group's name be?</h2>
-                    <p>Choose a name that will give people a clear idea of what the group is about.
-                        <br/>Feel free to get creative! You can edit this later if you change your mind.</p>
-                    <input
-                        type='text'
-                        placeholder='What is your group name?'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                    {errors.name && (<p className='errors'>{errors.name}</p>)}
-                </div>
-                <div>
-                    <h2>Now describe what your group will be about</h2>
-                    <p>People will see this when we promote your group, but you'll be able to add to it later, too.
-                        <br/><br/>
-                        1. What's the purpose of the group?<br/>
-                        2. Who should join you?<br/>
-                        3. What will you do at your events?</p>
-                    <input
-                        type='text-area'
-                        placeholder='Please write at least 30 characters'
-                        value={about}
-                        onChange={(e) => setAbout(e.target.value)}
-                    />
-                    {errors.about && (<p className='errors'>{errors.about}</p>)}
-                </div>
-                <div>
-                    <h2>Final Steps...</h2>
-                    <p>Is this an in person or online group?</p>
-                    <select
-                        name='type'
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                    >
-                        <option disabled>
-                        (select one)
-                        </option>
-                        <option>In person</option>
-                        <option>Online</option>
-                    </select>
-                    {errors.type && (<p className='errors'>{errors.type}</p>)}
-                    <p>Is this group private or public?</p>
-                    <select
-                        onChange={(e) => setPrivacy(e.target.value)}
-                        value={privacy}                    >
-                        <option disabled>
-                            (select one)
-                        </option>
-                        <option onChange={(e) => setPrivacy(e.target.value)} value={true}>Private</option>
-                        <option onChange={(e) => setPrivacy(e.target.value)} value={false}>Public</option>
-                    </select>
-                    {errors.privacy && (<p className='errors'>{errors.privacy}</p>)}
-                </div>
-                <div>
-                    <button onSubmit={handleSubmit} type='submit'>Update group</button>
-                </div>
-            </form>
+                    </div>
+                    <div className='update-group-form-section'>
+                        <h2 className='update-group-form-section-header'>What will your group's name be?</h2>
+                        <p>Choose a name that will give people a clear idea of what the group is about.
+                            <br/>Feel free to get creative! You can edit this later if you change your mind.</p>
+                        <input
+                            className='update-group-form-inputs'
+                            type='text'
+                            placeholder='What is your group name?'
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        {errors.name && (<p className='errors'>{errors.name}</p>)}
+                    </div>
+                    <div className='update-group-form-section'>
+                        <h2 className='update-group-form-section-header'>Now describe what your group will be about</h2>
+                        <p>People will see this when we promote your group, but you'll be able to add to it later, too.
+                            <br/><br/>
+                            1. What's the purpose of the group?<br/>
+                            2. Who should join you?<br/>
+                            3. What will you do at your events?</p>
+                        <textarea
+                            id='update-group-about-input'
+                            className='update-group-form-inputs'
+                            type='text-area'
+                            placeholder='Please write at least 30 characters'
+                            value={about}
+                            onChange={(e) => setAbout(e.target.value)}
+                        />
+                        {errors.about && (<p className='errors'>{errors.about}</p>)}
+                    </div>
+                    <div className='update-group-form-section'>
+                        <h2 className='update-group-form-section-header'>Final Steps...</h2>
+                        <div className='update-group-form-select-div'>
+                            <p>Is this an in person or online group?</p>
+                            <select
+                                name='type'
+                                value={type}
+                                onChange={(e) => setType(e.target.value)}
+                            >
+                                <option disabled>
+                                (select one)
+                                </option>
+                                <option>In person</option>
+                                <option>Online</option>
+                            </select>
+                            {errors.type && (<p className='errors'>{errors.type}</p>)}
+                        </div>
+                        <div className='update-group-form-select-div'>
+                            <p>Is this group private or public?</p>
+                            <select
+                                onChange={(e) => setPrivacy(e.target.value)}
+                                value={privacy}                    >
+                                <option disabled>
+                                    (select one)
+                                </option>
+                                <option onChange={(e) => setPrivacy(e.target.value)} value={true}>Private</option>
+                                <option onChange={(e) => setPrivacy(e.target.value)} value={false}>Public</option>
+                            </select>
+                            {errors.privacy && (<p className='errors'>{errors.privacy}</p>)}
+                        </div>
+                    </div>
+                    <div>
+                        <button id='update-group-submit-button' onSubmit={handleSubmit} type='submit'>Update group</button>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

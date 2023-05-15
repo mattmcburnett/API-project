@@ -38,6 +38,9 @@
 
 #group-page-preview-info {
     margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #group-page-group-title {
@@ -123,7 +126,7 @@
     border-radius: 10px;
     padding: 10px;
     width: 400px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 #group-page-events-list {
@@ -175,5 +178,11 @@
 
 #group-page-events-list li {
     border: none;
+    display: flex;
+    flex-direction: column;
+}
 
+#group-page-events-list{
+    display: flex;
+    flex-direction: column;
 }

@@ -78,33 +78,35 @@ function GroupPage() {
                         </div>
                         <img className='group-preview-image-group-page' src={previewImageUrl}/>
                         <div id='group-page-preview-info'>
-                            <div ><h2 id='group-page-group-title'>{group.name}</h2></div>
-                            <div id='group-page-group-subheader'>
-                                <h3 className='group-subheader-content'>{`${group.city}, ${group.state}`}</h3>
-                                <div id='group-page-events-and-privacy'>
-                                    <h3 className='group-subheader-content'>{events.length} event(s)</h3>
-                                    <h3 className='group-subheader-content'>·</h3>
-                                    {group.privacy === true ? <h3 className='group-subheader-content'>Private</h3> : <h3 className='group-subheader-content'>Public</h3> }
+                            <div id='group-page-highlights-container-div'>
+                                <div ><h2 id='group-page-group-title'>{group.name}</h2></div>
+                                <div id='group-page-group-subheader'>
+                                    <h3 className='group-subheader-content'>{`${group.city}, ${group.state}`}</h3>
+                                    <div id='group-page-events-and-privacy'>
+                                        <h3 className='group-subheader-content'>{events.length} event(s)</h3>
+                                        <h3 className='group-subheader-content'>·</h3>
+                                        {group.privacy === true ? <h3 className='group-subheader-content'>Private</h3> : <h3 className='group-subheader-content'>Public</h3> }
+                                    </div>
+                                    <h3 className='group-subheader-content'>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
                                 </div>
-                                <h3 className='group-subheader-content'>{`Organized by ${group.Organizer.firstName} ${group.Organizer.lastName}`}</h3>
                             </div>
-
-                            {userId === group.organizerId ?
-                                (<div id='group-page-button-container'>
-                                    <NavLink to={`/groups/${groupId}/events/new`}><button className='group-page-button'>Create Event</button></NavLink>
-                                    <NavLink to={`/groups/${groupId}/edit`}><button className='group-page-button'>Update</button></NavLink>
-                                    <OpenModalMenuItem
-                                        className='group-page-button'
-                                        itemText='Delete'
-                                        modalComponent={<DeleteGroupModal groupId={groupId}/>}
-                                        isButton={true}
-                                    />
+                                {userId === group.organizerId ?
+                                    (<div id='group-page-button-container'>
+                                        <NavLink to={`/groups/${groupId}/events/new`}><button className='group-page-button'>Create Event</button></NavLink>
+                                        <NavLink to={`/groups/${groupId}/edit`}><button className='group-page-button'>Update</button></NavLink>
+                                        <OpenModalMenuItem
+                                            className='group-page-button'
+                                            itemText='Delete'
+                                            modalComponent={<DeleteGroupModal groupId={groupId}/>}
+                                            isButton={true}
+                                        />
+                                    </div>)
+                                    :
+                                    (<div id='group-page-button-container' className='button-div'>
+                                    <button className='group-page-button' id='group-page-join-button'>Join this group</button>
                                 </div>)
-                                :
-                                (<div className='button-div'>
-                                <button className='group-page-button' id='group-page-join-button'>Join this group</button>
-                            </div>)
-                            }
+                                }
+
                         </div>
                     </div>
                     <div id='group-page-bottom-half'>
